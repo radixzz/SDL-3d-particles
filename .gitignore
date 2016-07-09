@@ -3,5 +3,8 @@
 *.cbp
 *.depend
 *.layout
+*.vcxproj*
+/Debug
+/debug
 /bin
 /obj
