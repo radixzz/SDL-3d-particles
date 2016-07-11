@@ -1,0 +1,5 @@
+namespace Sax {
+	class Sprite {
+
+	};
+}
