@@ -8,11 +8,11 @@
 #include "vld.h"
 #endif
 
-#include "lib\Log.h"
-#include "lib\Application.h"
-#include "lib\Window.h"
-#include "lib\Stage.h"
-#include "lib\Sprite.h"
+#include "lib/Log.h"
+#include "lib/Application.h"
+#include "lib/Window.h"
+#include "lib/Stage.h"
+#include "lib/Sprite.h"
 
 using namespace Sax;
 int main( int argc, char* args[] ){
