@@ -2,7 +2,12 @@
 #include <stdio.h>
 #include <string>
 #include <iostream>
+
+// Memory Leak Analyzer
+#if defined( _WIN32 )
 #include "vld.h"
+#endif
+
 #include "lib\Log.h"
 #include "lib\Application.h"
 #include "lib\Window.h"
@@ -16,18 +21,12 @@ int main( int argc, char* args[] ){
 	Log::info( "Initializing" );
 	Application* app = new Application();
 	Window* window = new Window( 800, 600 );
-	window->setClearColor( 255, 255, 255, 255 );
+	
 	app->addWindow( window );
 	Stage* stage = new Stage();
+	stage->setClearColor( 255, 255, 255, 255 );
 	window->addStage( stage );
-	/*
-	Window* window2 = new Window( 200, 200 );
-	app->addWindow( window2 );
-	window2->setClearColor( 0xFF, 0xFF, 0xFF, 0xFF );
-	Stage* stage2 = new Stage();
-	window2->addStage( stage2 );
-	*/
-
+	
 	Sprite* sprite = new Sprite();
 	
 	while ( app->running() ) {

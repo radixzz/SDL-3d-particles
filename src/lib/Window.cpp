@@ -2,12 +2,12 @@
 #include "Window.h"
 #include "Stage.h"
 #include "Log.h"
+#include "Utils.h"
 
 Sax::Window::Window( int width, int height ) {
 	_wnd = SDL_CreateWindow( "SaxApp", 0, 0, 0, 0, SDL_WINDOW_SHOWN );
 	_renderer = SDL_CreateRenderer( _wnd, -1, SDL_RENDERER_ACCELERATED );
 	resize( width, height );
-	setClearColor( 255, 255, 255, 0xFF );
 	_active = true;
 	Log::info( "Window created" );
 }
@@ -24,12 +24,6 @@ Sax::Window::~Window() {
 	SDL_DestroyRenderer( _renderer );
 }
 
-void Sax::Window::setClearColor( int r, int g, int b, int a ) {
-	if ( _renderer != NULL ) {
-		SDL_SetRenderDrawColor( _renderer, r, g, b, a );
-	}
-}
-
 void Sax::Window::resize( int width, int height ) {
 	_width = width;
 	_height = height;
@@ -43,11 +37,12 @@ void Sax::Window::render() {
 	if ( !_active ) {
 		return;
 	}
-	SDL_RenderClear( _renderer );
+
 	std::vector<Stage*>::iterator it;
 	for ( it = _stages.begin(); it != _stages.end(); ++it ) {
 		( *it )->copyTo( _renderer, _width, _height, SDL_PIXELFORMAT_RGBA8888 );
 	}
+	
 	SDL_RenderPresent( _renderer );
 }
 

@@ -15,7 +15,6 @@ namespace Sax {
 			static bool InitSDL();
 			void render();
 			void resize( int, int );
-			void setClearColor( int r, int g, int b, int a );
 			void addStage(Stage* stage);
 			void setTitle(std::string title);
 			bool active();
