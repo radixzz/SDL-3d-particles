@@ -20,9 +20,11 @@ namespace Sax {
 			bool active();
 			int id();
 		private:
+			void updateRendererDescriptor();
 			int _width;
 			int _height;
 			bool _active;
+			RendererDescriptor _rendererDescriptor;
 			SDL_Window* _wnd;
 			SDL_Renderer* _renderer;
 			std::vector<Stage*> _stages;

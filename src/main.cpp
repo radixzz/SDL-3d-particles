@@ -24,6 +24,7 @@ int main( int argc, char* args[] ){
 	
 	app->addWindow( window );
 	Stage* stage = new Stage();
+	stage->setViewport( {0, 0, 100, 100} );
 	stage->setClearColor( 255, 255, 255, 255 );
 	window->addStage( stage );
 	
