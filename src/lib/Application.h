@@ -5,7 +5,12 @@
 #include "Window.h"
 
 namespace Sax {
+	
 	class Application {
+		
+		static int FPS; // Frames per second
+		static int TPF; // Ticks per frame
+
 		public:
 			Application();
 			~Application();

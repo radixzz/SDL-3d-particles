@@ -31,6 +31,7 @@ namespace Sax
 	}
 
 	void Stage::updateTexture( RendererDescriptor &descriptor ) {
+		//SDL_RenderClear( renderer );
 		if ( _texture == NULL ) {
 			Log::info( "Creating texture" );
 			_texture = SDL_CreateTexture(
@@ -48,7 +49,6 @@ namespace Sax
 			_clearColor[ 1 ],
 			_clearColor[ 2 ],
 			_clearColor[ 3 ] );
-		//SDL_RenderClear( renderer );
 
 		if ( _viewport.w == 0 || _viewport.h == 0 ){
 			_viewport.w = descriptor.width;
