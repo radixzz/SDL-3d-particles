@@ -7,12 +7,13 @@ namespace Sax
 {
 	class Timer {
 		public:
-			Timer();
+			Timer( bool autostart = false );
 			void resume();
-			void reset( bool stop );
+			void reset( bool stop = false );
 			void pause();
 			void stop();
 			Uint32 getTicks();
+			double getSeconds();
 		private:
 			bool _running;
 			bool _paused;

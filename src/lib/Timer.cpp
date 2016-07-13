@@ -2,8 +2,12 @@
 
 namespace Sax {
 	
-	Timer::Timer() {
+	Timer::Timer( bool autostart ) {
 		reset( true );
+		
+		if ( autostart ) {
+			resume();
+		}
 	}
 
 	void Timer::reset( bool stop ) {
@@ -34,6 +38,10 @@ namespace Sax {
 	void Timer::pause() {
 		_paused = true;
 		_pauseTicks = SDL_GetTicks();
+	}
+
+	double Timer::getSeconds() {
+		return getTicks() / 1000.f;
 	}
 
 	Uint32 Timer::getTicks() {

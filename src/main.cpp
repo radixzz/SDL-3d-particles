@@ -15,6 +15,8 @@
 #include "lib/Sprite.h"
 #include "lib/Utils.h"
 
+#include "lib/Timer.h"
+
 using namespace Sax;
 int main( int argc, char* args[] ){
     
@@ -29,10 +31,12 @@ int main( int argc, char* args[] ){
 	window->addStage( stage );
 	
 	Sprite* sprite = new Sprite();
-	
+
 	while ( app->running() ) {
 		app->processEvents();
 		app->render();
+
+		Log::info( to_string( app->getFPS() ) );
 	}
 	
 	delete app;

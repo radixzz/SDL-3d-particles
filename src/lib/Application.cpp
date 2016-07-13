@@ -3,18 +3,16 @@
 #include <algorithm>
 #include "Log.h"
 #include "Utils.h"
-
+#include "Timer.h"
 
 namespace Sax {
-	
-	std::vector< Window* > Application::_windows;
-	int FPS = 60;
-	int TPF = 1000 / FPS;
-	
-	bool Application::_initted = false;
-	bool Application::_running = false;
 
 	Application::Application() {
+		_initted = false;
+		_running = false;
+		_lastFrameTime = 0;
+		_fpsTimer = Timer( true );
+
 		initializeSDL();
 	}
 
@@ -66,8 +64,8 @@ namespace Sax {
 	}
 
 	void Application::closeWindow( int id ) {
-		std::vector< Window* >::iterator it;
-		for ( it = _windows.begin(); it != _windows.end(); it++ ) {
+		auto it = _windows.begin();
+		for ( ; it != _windows.end(); it++ ) {
 			if ( ( *it )->id() == id ) {
 				delete *it;
 				_windows.erase( it );
@@ -76,9 +74,28 @@ namespace Sax {
 		}
 	}
 
+	double Application::getFPS() {
+		double sum = 0;
+		auto it = _fpsSamples.begin();
+		for ( ; it != _fpsSamples.end(); it++ ) {
+			sum += *it;
+		}
+		return sum / _fpsSamples.size();
+	}
+
+	void Application::updateFPS() {
+		double frameTime = _fpsTimer.getSeconds() - _lastFrameTime;
+		_lastFrameTime = _fpsTimer.getSeconds();
+		if ( _fpsSamples.size() > 100 ) {
+			_fpsSamples.pop_back();
+		}
+		_fpsSamples.push_front( 1 / frameTime );
+	}
+
 	void Application::render() {
-		std::vector<Window*>::iterator it;
-		for ( it = _windows.begin(); it != _windows.end(); ++it ) {
+		updateFPS();
+		auto it = _windows.begin();
+		for ( ; it != _windows.end(); ++it ) {
 			( *it )->render();
 		}
 	}
