@@ -7,25 +7,45 @@
 
 namespace Sax {
 
-	Application::Application() {
-		_initted = false;
-		_running = false;
+	bool Application::sdl_initted = false;
+
+	Application::Application( int width, int height ) {
+		initializeSDL();
 		_lastFrameTime = 0;
 		_fpsTimer = Timer( true );
-
-		initializeSDL();
+		_wnd = SDL_CreateWindow( "SaxApp", 0, 0, 0, 0, SDL_WINDOW_SHOWN );
+		_renderer = SDL_CreateRenderer( _wnd, -1, SDL_RENDERER_ACCELERATED );
+		resize( width, height );
 	}
 
 	Application::~Application() {
 		Log::info( "Releasing..." );
 		_running = false;
+		std::vector<Stage*>::iterator it;
+		for ( it = _stages.begin(); it != _stages.end(); ++it ) {
+			delete *it;
+		}
+		_stages.clear();
+		SDL_DestroyWindow( _wnd );
+		SDL_DestroyRenderer( _renderer );
 		SDL_Quit();
 	}
 
+	void Application::resize( int width, int height ) {
+		_width = width;
+		_height = height;
+		if ( _wnd != NULL ) {
+			SDL_SetWindowSize( _wnd, width, height );
+			SDL_SetWindowPosition( _wnd, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED );
+			updateRendererDescriptor();
+
+		}
+	}
+
 	bool Application::initializeSDL() {
-		if ( !_initted ){
+		if ( !sdl_initted ){
 			if ( SDL_Init( SDL_INIT_VIDEO ) == 0 ){
-				_initted = true;
+				sdl_initted = true;
 				_running = true;
 				Log::info( "SDL successfuly initialized." );
 			}
@@ -33,7 +53,7 @@ namespace Sax {
 				Log::error( "Cannot initialize SDL." );
 			}
 		}
-		return _initted;
+		return sdl_initted;
 	}
 
 	bool Application::running() {
@@ -45,30 +65,8 @@ namespace Sax {
 		while ( SDL_PollEvent( &e ) != 0 ) {
 			switch ( e.type )
 			{
-			case SDL_WINDOWEVENT:
-				handleWindowEvent( &e.window );
-				break;
 			case SDL_QUIT:
 				_running = false;
-				break;
-			}
-		}
-	}
-
-	void Application::handleWindowEvent( SDL_WindowEvent* e ) {
-		switch ( e->event ) {
-		case SDL_WINDOWEVENT_CLOSE:
-			closeWindow( e->windowID );
-			break;
-		}
-	}
-
-	void Application::closeWindow( int id ) {
-		auto it = _windows.begin();
-		for ( ; it != _windows.end(); it++ ) {
-			if ( ( *it )->id() == id ) {
-				delete *it;
-				_windows.erase( it );
 				break;
 			}
 		}
@@ -93,17 +91,34 @@ namespace Sax {
 	}
 
 	void Application::render() {
-		updateFPS();
-		auto it = _windows.begin();
-		for ( ; it != _windows.end(); ++it ) {
-			( *it )->render();
+		
+		if ( !_running ) {
+			return;
 		}
+
+		updateFPS();
+
+		std::vector<Stage*>::iterator it;
+		for ( it = _stages.begin(); it != _stages.end(); ++it ) {
+			( *it )->copyTo( _rendererDescriptor );
+		}
+
+		SDL_RenderPresent( _renderer );
 	}
 
-	void Application::addWindow( Window* window ) {
-		bool exists = std::find( _windows.begin(), _windows.end(), window ) != _windows.end();
+	void Application::updateRendererDescriptor() {
+		_rendererDescriptor = {
+			_renderer,
+			_width,
+			_height,
+			SDL_PIXELFORMAT_RGBA8888
+		};
+	}
+
+	void Application::addStage( Stage* stage ) {
+		bool exists = std::find( _stages.begin(), _stages.end(), stage ) != _stages.end();
 		if ( !exists ) {
-			_windows.push_back( window );
+			_stages.push_back( stage );
 		}
 	}
 }

@@ -4,34 +4,42 @@
 #include <deque>
 #include <vector>
 
-#include "Window.h"
 #include "Timer.h"
+#include "Stage.h"
+#include "Types.h"
 
 namespace Sax {
 	
 	class Application {
-		
+		static bool sdl_initted;
 		public:
-			Application();
+			Application( int width, int height );
 			~Application();
 			bool initializeSDL();
 			void processEvents();
 			void updateFPS();
 			void render();
 			bool running();
-			void addWindow( Window* window );
+			void resize( int, int );
+			void addStage( Stage* stage );
+			void setTitle( std::string title );
 			double getFPS();
 		private:
+			void updateRendererDescriptor();
 			void handleWindowEvent( SDL_WindowEvent* e );
-			void closeWindow( int id );
-			bool _initted;
+			
 			bool _running;
+			int _width;
+			int _height;
 
 			Timer _fpsTimer;
 			double _lastFrameTime;
 			std::deque<double> _fpsSamples;
-
-			std::vector< Window* > _windows;
+			
+			RendererDescriptor _rendererDescriptor;
+			SDL_Window* _wnd;
+			SDL_Renderer* _renderer;
+			std::vector<Stage*> _stages;
 	};
 }
 
