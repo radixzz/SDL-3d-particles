@@ -3,7 +3,10 @@
 
 namespace Sax {
 	class DisplayObject {
-
+	public:
+		DisplayObject();
+		~DisplayObject();
+	private:
 	};
 }
 

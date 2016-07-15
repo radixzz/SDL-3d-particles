@@ -1,6 +1,8 @@
 #include <SDL.h>
-#include "Application.h"
 #include <algorithm>
+#include <functional>
+
+#include "Application.h"
 #include "Log.h"
 #include "Utils.h"
 #include "Timer.h"
@@ -9,10 +11,10 @@ namespace Sax {
 
 	bool Application::sdl_initted = false;
 
-	Application::Application( int width, int height ) {
+	Application::Application( int width, int height, std::function<void( double )> cb ) {
 		initializeSDL();
-		_lastFrameTime = 0;
-		_fpsTimer = Timer( true );
+		_updateCallback = cb;
+		_ticker = new Ticker( std::bind( &Application::onTickerUpdate, this, std::placeholders::_1 ) );
 		_wnd = SDL_CreateWindow( "SaxApp", 0, 0, 0, 0, SDL_WINDOW_SHOWN );
 		_renderer = SDL_CreateRenderer( _wnd, -1, SDL_RENDERER_ACCELERATED );
 		resize( width, height );
@@ -20,11 +22,11 @@ namespace Sax {
 
 	Application::~Application() {
 		Log::info( "Releasing..." );
-		_running = false;
 		std::vector<Stage*>::iterator it;
 		for ( it = _stages.begin(); it != _stages.end(); ++it ) {
 			delete *it;
 		}
+		delete _ticker;
 		_stages.clear();
 		SDL_DestroyWindow( _wnd );
 		SDL_DestroyRenderer( _renderer );
@@ -46,7 +48,6 @@ namespace Sax {
 		if ( !sdl_initted ){
 			if ( SDL_Init( SDL_INIT_VIDEO ) == 0 ){
 				sdl_initted = true;
-				_running = true;
 				Log::info( "SDL successfuly initialized." );
 			}
 			else {
@@ -56,50 +57,33 @@ namespace Sax {
 		return sdl_initted;
 	}
 
-	bool Application::running() {
-		return _running;
-	}
-
 	void Application::processEvents() {
 		SDL_Event e;
 		while ( SDL_PollEvent( &e ) != 0 ) {
 			switch ( e.type )
 			{
 			case SDL_QUIT:
-				_running = false;
+				_ticker->stop();
 				break;
 			}
 		}
 	}
 
-	double Application::getFPS() {
-		double sum = 0;
-		auto it = _fpsSamples.begin();
-		for ( ; it != _fpsSamples.end(); it++ ) {
-			sum += *it;
+	void Application::run() {
+		if ( sdl_initted ) {
+			_ticker->resume();
 		}
-		return sum / _fpsSamples.size();
 	}
 
-	void Application::updateFPS() {
-		double frameTime = _fpsTimer.getSeconds() - _lastFrameTime;
-		_lastFrameTime = _fpsTimer.getSeconds();
-		if ( _fpsSamples.size() > 100 ) {
-			_fpsSamples.pop_back();
-		}
-		_fpsSamples.push_front( 1 / frameTime );
+	void Application::onTickerUpdate( double dt ) {
+		processEvents();
+		_updateCallback( dt );
+		render();
 	}
 
 	void Application::render() {
-		
-		if ( !_running ) {
-			return;
-		}
-
-		updateFPS();
-
-		std::vector<Stage*>::iterator it;
-		for ( it = _stages.begin(); it != _stages.end(); ++it ) {
+		auto it = _stages.begin();
+		for ( ; it != _stages.end(); ++it ) {
 			( *it )->copyTo( _rendererDescriptor );
 		}
 

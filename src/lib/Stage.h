@@ -2,6 +2,7 @@
 #define SAX_STAGE_H
 
 #include <SDL.h>
+#include "Sprite.h"
 #include "Types.h"
 
 namespace Sax {
@@ -18,6 +19,7 @@ namespace Sax {
 			void setClearColor( Uint8 r, Uint8 g, Uint8 b, Uint8 a );
 			int copyTo( RendererDescriptor &descriptor );
 			void setViewport( SDL_Rect viewport );
+			void addChild(  );
 	};
 }
 

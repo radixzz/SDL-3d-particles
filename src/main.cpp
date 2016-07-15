@@ -13,30 +13,34 @@
 #include "lib/Stage.h"
 #include "lib/Sprite.h"
 #include "lib/Utils.h"
-
+#include "lib/Texture.h"
 #include "lib/Timer.h"
 
 using namespace Sax;
+
+Application* app = NULL;
+Stage* stage = NULL;
+
+
+void update( int dt ) {
+	//Log::info( to_string( dt ) );
+}
+
 int main( int argc, char* args[] ){
     
 	Log::debugMode = true;
 	Log::info( "Initializing" );
-	Application* app = new Application( 800, 600 );
-	Stage* stage = new Stage();
+	app = new Application( 800, 600, update );
+	stage = new Stage();
 	stage->setViewport( { 0, 0, 100, 100 } );
 	stage->setClearColor( 255, 255, 255, 255 );
 	app->addStage( stage );
 	
-	Sprite* sprite = new Sprite();
-
-	while ( app->running() ) {
-		app->processEvents();
-		app->render();
-		Log::info( to_string( app->getFPS() ) );
-	}
-	
+	Texture tex = Texture();
+	tex.fromImage( "dude.png" );
+	//stage->addChild( tex );
+	app->run();
 	delete app;
-	delete sprite;
 	
     return EXIT_SUCCESS;
 }
