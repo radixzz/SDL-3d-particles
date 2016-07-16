@@ -14,11 +14,12 @@ namespace Sax {
 			void draw( SDL_Renderer* renderer );
 			void fromImage( std::string path );
 		private:
-			double _width;
-			double _height;
-			double _realWidth;
-			double _realHeight;
-			std::string _path;
+			double width;
+			double height;
+			double realWidth;
+			double realHeight;
+			SDL_Rect* crop;
+			std::string path;
 	};
 }
 

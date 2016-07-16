@@ -11,22 +11,22 @@ namespace Sax {
 	}
 
 	void Timer::reset( bool stop ) {
-		_startTicks = SDL_GetTicks();
-		_pauseTicks = 0;
+		startTicks = SDL_GetTicks();
+		pauseTicks = 0;
 		if ( stop ) {
-			_paused = false;
-			_running = false;
+			paused = false;
+			running = false;
 		}
 	}
 
 	void Timer::resume() {
 
-		_running = true;
+		running = true;
 
-		if ( _paused ) {
-			_paused = false;
-			_startTicks = SDL_GetTicks() - _pauseTicks;
-			_pauseTicks = 0;
+		if ( paused ) {
+			paused = false;
+			startTicks = SDL_GetTicks() - pauseTicks;
+			pauseTicks = 0;
 		}
 
 	}
@@ -36,8 +36,8 @@ namespace Sax {
 	}
 
 	void Timer::pause() {
-		_paused = true;
-		_pauseTicks = SDL_GetTicks();
+		paused = true;
+		pauseTicks = SDL_GetTicks();
 	}
 
 	double Timer::getSeconds() {
@@ -45,8 +45,8 @@ namespace Sax {
 	}
 
 	Uint32 Timer::getTicks() {
-		if ( _running ) {
-			return _paused ? _pauseTicks : SDL_GetTicks() - _startTicks;
+		if ( running ) {
+			return paused ? pauseTicks : SDL_GetTicks() - startTicks;
 		}
 		else {
 			return 0;

@@ -15,11 +15,11 @@ namespace Sax {
 			void resume();
 			void stop();
 		private:
-			bool _running;
-			std::function<void( double )> _tickCallback;
-			Timer _fpsTimer;
-			double _lastFrameTime;
-			std::deque<double> _fpsSamples;
+			bool running;
+			std::function<void( double )> tickCallback;
+			Timer fpsTimer;
+			double lastFrameTime;
+			std::deque<double> fpsSamples;
 	};
 }
 

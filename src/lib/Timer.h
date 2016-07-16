@@ -15,10 +15,10 @@ namespace Sax
 			Uint32 getTicks();
 			double getSeconds();
 		private:
-			bool _running;
-			bool _paused;
-			Uint32 _startTicks;
-			Uint32 _pauseTicks;
+			bool running;
+			bool paused;
+			Uint32 startTicks;
+			Uint32 pauseTicks;
 	};
 }
 

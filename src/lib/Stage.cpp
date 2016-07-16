@@ -6,12 +6,12 @@ namespace Sax
 {
 
 	Stage::Stage() {
-		_texture = NULL;
-		_viewport = {};
+		texture = NULL;
+		viewport = {};
 	}
 
 	Stage::~Stage() {
-		SDL_DestroyTexture( _texture );
+		SDL_DestroyTexture( texture );
 		setClearColor( 0, 0, 0, 255 );
 	}
 
@@ -20,42 +20,42 @@ namespace Sax
 	}
 
 	void Stage::setClearColor( Uint8 r, Uint8 g, Uint8 b, Uint8 a ) {
-		_clearColor[ 0 ] = r;
-		_clearColor[ 1 ] = g;
-		_clearColor[ 2 ] = b;
-		_clearColor[ 3 ] = a;
+		clearColor[ 0 ] = r;
+		clearColor[ 1 ] = g;
+		clearColor[ 2 ] = b;
+		clearColor[ 3 ] = a;
 	}
 
 	void Stage::setViewport( SDL_Rect viewport ) {
-		_viewport = viewport;
+		this->viewport = viewport;
 	}
 
 	void Stage::updateTexture( RendererDescriptor &descriptor ) {
 		//SDL_RenderClear( renderer );
-		if ( _texture == NULL ) {
+		if ( texture == NULL ) {
 			Log::info( "Creating texture" );
-			_texture = SDL_CreateTexture(
+			texture = SDL_CreateTexture(
 				descriptor.renderer, descriptor.pixelFormat,
 				SDL_TEXTUREACCESS_TARGET,
 				descriptor.width, descriptor.height );
-			SDL_SetTextureBlendMode( _texture, SDL_BLENDMODE_BLEND );
+			SDL_SetTextureBlendMode( texture, SDL_BLENDMODE_BLEND );
 		}
 
-		SDL_SetRenderTarget( descriptor.renderer, _texture );
+		SDL_SetRenderTarget( descriptor.renderer, texture );
 
 		SDL_SetRenderDrawColor(
 			descriptor.renderer,
-			_clearColor[ 0 ],
-			_clearColor[ 1 ],
-			_clearColor[ 2 ],
-			_clearColor[ 3 ] );
+			clearColor[ 0 ],
+			clearColor[ 1 ],
+			clearColor[ 2 ],
+			clearColor[ 3 ] );
 
-		if ( _viewport.w == 0 || _viewport.h == 0 ){
-			_viewport.w = descriptor.width;
-			_viewport.h = descriptor.height;
+		if ( viewport.w == 0 || viewport.h == 0 ){
+			viewport.w = descriptor.width;
+			viewport.h = descriptor.height;
 		}
 
-		SDL_RenderFillRect( descriptor.renderer, &_viewport );
+		SDL_RenderFillRect( descriptor.renderer, &viewport );
 	}
 
 	int Stage::copyTo( RendererDescriptor &descriptor ) {
@@ -67,8 +67,10 @@ namespace Sax
 		SDL_SetRenderDrawBlendMode( descriptor.renderer, SDL_BLENDMODE_BLEND );
 		SDL_SetRenderDrawColor( descriptor.renderer, 128, 128, 128, 255 );
 
-		SDL_RenderCopy( descriptor.renderer, _texture, NULL, NULL );
+		SDL_RenderCopy( descriptor.renderer, texture, NULL, NULL );
 		return 0;
+	}
 
+	void Stage::addChild( DisplayObject* displayObject ) {
 	}
 }

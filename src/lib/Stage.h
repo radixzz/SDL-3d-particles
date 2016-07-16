@@ -4,13 +4,10 @@
 #include <SDL.h>
 #include "Sprite.h"
 #include "Types.h"
+#include "DisplayObject.h"
 
 namespace Sax {
 	class Stage {
-		private:
-			SDL_Texture* _texture;
-			Uint8 _clearColor[4];
-			SDL_Rect _viewport;
 		public:
 			Stage();
 			~Stage();
@@ -19,7 +16,12 @@ namespace Sax {
 			void setClearColor( Uint8 r, Uint8 g, Uint8 b, Uint8 a );
 			int copyTo( RendererDescriptor &descriptor );
 			void setViewport( SDL_Rect viewport );
-			void addChild(  );
+			void addChild( DisplayObject* displayObject );
+	private:
+		SDL_Texture* texture;
+		Uint8 clearColor[ 4 ];
+		SDL_Rect viewport;
+		std::vector< DisplayObject* > children;
 	};
 }
 

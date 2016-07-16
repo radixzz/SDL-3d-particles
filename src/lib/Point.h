@@ -4,9 +4,9 @@
 namespace Sax {
 	class Point {
 		public:
-			Point::Point( double x = 0.f, double y = 0.f );
-			double x;
-			double y;
+			Point( int x = 0, int y = 0 );
+			int x;
+			int y;
 	};
 }
 

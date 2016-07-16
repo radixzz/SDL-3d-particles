@@ -28,14 +28,14 @@ namespace Sax {
 			void onTickerUpdate( double dt );
 			void updateRendererDescriptor();
 			void handleWindowEvent( SDL_WindowEvent* e );
-			int _width;
-			int _height;
-			Ticker* _ticker;
-			std::function<void(double)> _updateCallback;
-			RendererDescriptor _rendererDescriptor;
-			SDL_Window* _wnd;
-			SDL_Renderer* _renderer;
-			std::vector<Stage*> _stages;
+			int width;
+			int height;
+			Ticker* ticker;
+			std::function< void(double) > updateCallback;
+			RendererDescriptor rendererDescriptor;
+			SDL_Window* window;
+			SDL_Renderer* renderer;
+			std::vector< Stage* > stages;
 	};
 }
 

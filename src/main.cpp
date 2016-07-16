@@ -12,8 +12,8 @@
 #include "lib/Application.h"
 #include "lib/Stage.h"
 #include "lib/Sprite.h"
+#include "lib/DisplayObject.h"
 #include "lib/Utils.h"
-#include "lib/Texture.h"
 #include "lib/Timer.h"
 
 using namespace Sax;
@@ -35,12 +35,11 @@ int main( int argc, char* args[] ){
 	stage->setClearColor( 255, 255, 255, 255 );
 	app->addStage( stage );
 	
-	Texture tex = Texture();
-	
-	tex.fromImage( "dude.png" );
-	//stage->addChild( tex );
+	Sprite* sprite = new Sprite();
+	//sprite->fromImage( "dude.png" );
+	stage->addChild( sprite );
 	app->run();
 	delete app;
-	
+	delete sprite;
     return EXIT_SUCCESS;
 }
