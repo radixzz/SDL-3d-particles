@@ -3,10 +3,9 @@
 namespace Sax {
 	Ticker::Ticker( std::function<void( double )> cb ) {
 		_tickCallback = cb;
-		_lastFrameTime = 0;
+		_lastFrameTime = 0.f;
 		_running = false;
 		_fpsTimer = Timer( true );
-		updateFPS();
 	}
 
 	Ticker::~Ticker() {
@@ -22,19 +21,16 @@ namespace Sax {
 		return sum / _fpsSamples.size();
 	}
 
-	void Ticker::updateFPS() {
-		double frameTime = _fpsTimer.getSeconds() - _lastFrameTime;
-		_lastFrameTime = _fpsTimer.getSeconds();
-		if ( _fpsSamples.size() > 100 ) {
-			_fpsSamples.pop_back();
-		}
-		_fpsSamples.push_front( 1 / frameTime );
-	}
-
 	void Ticker::resume() {
 		_running = true;
 		while ( _running ) {
-			_tickCallback( 0 );
+			double frameTime = _fpsTimer.getTicks() - _lastFrameTime;
+			_lastFrameTime = _fpsTimer.getTicks();
+			if ( _fpsSamples.size() > 100 ) {
+				_fpsSamples.pop_back();
+			}
+			_fpsSamples.push_front( 1000 / frameTime );
+			_tickCallback( frameTime );
 		}
 	}
 

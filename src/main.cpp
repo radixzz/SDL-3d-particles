@@ -21,9 +21,8 @@ using namespace Sax;
 Application* app = NULL;
 Stage* stage = NULL;
 
-
-void update( int dt ) {
-	//Log::info( to_string( dt ) );
+void update( double dt ) {
+	Log::info( to_string( dt ) );
 }
 
 int main( int argc, char* args[] ){
@@ -37,6 +36,7 @@ int main( int argc, char* args[] ){
 	app->addStage( stage );
 	
 	Texture tex = Texture();
+	
 	tex.fromImage( "dude.png" );
 	//stage->addChild( tex );
 	app->run();

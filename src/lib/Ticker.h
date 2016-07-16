@@ -12,7 +12,6 @@ namespace Sax {
 			Ticker( std::function<void( double )> );
 			~Ticker();
 			double getFPS();
-			void updateFPS();
 			void resume();
 			void stop();
 		private:

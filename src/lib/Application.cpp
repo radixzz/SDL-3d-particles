@@ -40,7 +40,6 @@ namespace Sax {
 			SDL_SetWindowSize( _wnd, width, height );
 			SDL_SetWindowPosition( _wnd, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED );
 			updateRendererDescriptor();
-
 		}
 	}
 
