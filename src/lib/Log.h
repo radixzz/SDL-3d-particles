@@ -2,7 +2,7 @@
 #define SAX_LOG_H
 
 #include <iostream>
-namespace Sax {
+namespace sax {
 	class Log
 	{
 		public:

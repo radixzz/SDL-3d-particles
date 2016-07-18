@@ -6,31 +6,33 @@
 #include "Log.h"
 #include "Utils.h"
 #include "Timer.h"
+#include "Sax.h"
 
-namespace Sax {
-
-	bool Application::sdl_initted = false;
+namespace sax {
 
 	Application::Application( int width, int height, std::function<void( double )> cb ) {
-		initializeSDL();
+		Sax::initialize();
 		updateCallback = cb;
 		ticker = new Ticker( std::bind( &Application::onTickerUpdate, this, std::placeholders::_1 ) );
 		window = SDL_CreateWindow( "SaxApp", 0, 0, 0, 0, SDL_WINDOW_SHOWN );
 		renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
+		setClearColor( 0, 0, 0, 255 );
 		resize( width, height );
 	}
 
 	Application::~Application() {
-		Log::info( "Releasing..." );
-		std::vector<Stage*>::iterator it;
-		for ( it = stages.begin(); it != stages.end(); ++it ) {
-			delete *it;
-		}
 		delete ticker;
 		stages.clear();
 		SDL_DestroyWindow( window );
 		SDL_DestroyRenderer( renderer );
-		SDL_Quit();
+		Sax::release();
+	}
+
+	void Application::setClearColor( Uint8 r, Uint8 g, Uint8 b, Uint8 a ) {
+		clearColor[ 0 ] = r;
+		clearColor[ 1 ] = g;
+		clearColor[ 2 ] = b;
+		clearColor[ 3 ] = a;
 	}
 
 	void Application::resize( int width, int height ) {
@@ -41,19 +43,6 @@ namespace Sax {
 			SDL_SetWindowPosition( window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED );
 			updateRendererDescriptor();
 		}
-	}
-
-	bool Application::initializeSDL() {
-		if ( !sdl_initted ){
-			if ( SDL_Init( SDL_INIT_VIDEO ) == 0 ){
-				sdl_initted = true;
-				Log::info( "SDL successfuly initialized." );
-			}
-			else {
-				Log::error( "Cannot initialize SDL." );
-			}
-		}
-		return sdl_initted;
 	}
 
 	void Application::processEvents() {
@@ -69,13 +58,25 @@ namespace Sax {
 	}
 
 	void Application::run() {
-		if ( sdl_initted ) {
-			ticker->resume();
-		}
+		ticker->resume();
+	}
+
+	void Application::renderClear() {
+		
+		SDL_SetRenderDrawColor( 
+			rendererDescriptor.renderer,
+			clearColor[ 0 ],
+			clearColor[ 1 ],
+			clearColor[ 2 ],
+			clearColor[ 3 ]
+		);
+		
+		SDL_RenderClear( rendererDescriptor.renderer );
 	}
 
 	void Application::onTickerUpdate( double dt ) {
 		processEvents();
+		renderClear();
 		updateCallback( dt );
 		render();
 	}
@@ -83,7 +84,7 @@ namespace Sax {
 	void Application::render() {
 		auto it = stages.begin();
 		for ( ; it != stages.end(); ++it ) {
-			( *it )->copyTo( rendererDescriptor );
+			( *it )->render( &rendererDescriptor );
 		}
 
 		SDL_RenderPresent( renderer );

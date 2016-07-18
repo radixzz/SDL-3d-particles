@@ -6,22 +6,18 @@
 #include "Types.h"
 #include "DisplayObject.h"
 
-namespace Sax {
+namespace sax {
 	class Stage {
 		public:
 			Stage();
 			~Stage();
-			void update();
-			void updateTexture( RendererDescriptor &descriptor );
-			void setClearColor( Uint8 r, Uint8 g, Uint8 b, Uint8 a );
-			int copyTo( RendererDescriptor &descriptor );
-			void setViewport( SDL_Rect viewport );
+			void render( RendererDescriptor* rendererDescriptor );
 			void addChild( DisplayObject* displayObject );
-	private:
-		SDL_Texture* texture;
-		Uint8 clearColor[ 4 ];
-		SDL_Rect viewport;
-		std::vector< DisplayObject* > children;
+			void removeChild( DisplayObject* displayObject );
+			void setViewport( SDL_Rect viewport );
+		private:
+			SDL_Rect viewport;
+			DisplayObject* container;
 	};
 }
 

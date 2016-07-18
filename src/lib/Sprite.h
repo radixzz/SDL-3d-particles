@@ -3,13 +3,17 @@
 
 #include "DisplayObject.h"
 #include "Texture.h"
+#include "Types.h"
 
-namespace Sax {
+namespace sax {
 	class Sprite: public DisplayObject {
 		public:
 			Sprite( Texture* texture = nullptr );
 			~Sprite();
 			void fromImage( std::string path );
+			void draw( RendererDescriptor* descriptor );
+			int width;
+			int height;
 		private:
 			Texture* texture;
 	};

@@ -1,6 +1,6 @@
 #include "Ticker.h"
 
-namespace Sax {
+namespace sax {
 	Ticker::Ticker( std::function<void( double )> cb ) {
 		tickCallback = cb;
 		lastFrameTime = 0.f;

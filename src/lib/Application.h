@@ -9,25 +9,26 @@
 #include "Types.h"
 #include "Ticker.h"
 
-namespace Sax {
+namespace sax {
 	
 	class Application {
-		static bool sdl_initted;
-
 		public:
 			Application( int width, int height, std::function<void( double )> );
 			~Application();
-			bool initializeSDL();
-			void processEvents();
-			void render();
+			
 			void run();
 			void resize( int, int );
 			void addStage( Stage* stage );
 			void setTitle( std::string title );
+			void setClearColor( Uint8 r, Uint8 g, Uint8 b, Uint8 a );
 		private:
+			void processEvents();
+			void render();
+			void renderClear();
 			void onTickerUpdate( double dt );
 			void updateRendererDescriptor();
 			void handleWindowEvent( SDL_WindowEvent* e );
+			Uint8 clearColor[ 4 ];
 			int width;
 			int height;
 			Ticker* ticker;

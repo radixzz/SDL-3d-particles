@@ -1,6 +1,6 @@
 #include "Timer.h"
 
-namespace Sax {
+namespace sax {
 	
 	Timer::Timer( bool autostart ) {
 		reset( true );

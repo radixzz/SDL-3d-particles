@@ -1,5 +1,5 @@
 #include "Point.h"
 
-namespace Sax {
+namespace sax {
 	Point::Point( int x, int y ) : x( x ), y( y ){};
 }

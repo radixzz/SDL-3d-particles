@@ -4,21 +4,26 @@
 #include <SDL.h>
 #include <map>
 
-namespace Sax {
+#include "Point.h"
+
+namespace sax {
 	
 	class Texture {
-		static std::map< std::string, SDL_Texture* > Cache;
 		public:
 			Texture();
 			~Texture();
-			void draw( SDL_Renderer* renderer );
+			void draw( SDL_Renderer* renderer, SDL_Rect* destRect, double rotation, Point* anchor );
 			void fromImage( std::string path );
+			int get_width();
+			int get_height();
 		private:
-			double width;
-			double height;
-			double realWidth;
-			double realHeight;
+			int width;
+			int height;
+			int realWidth;
+			int realHeight;
+			bool textureCreated;
 			SDL_Rect* crop;
+			SDL_Texture* sdlTexture;
 			std::string path;
 	};
 }

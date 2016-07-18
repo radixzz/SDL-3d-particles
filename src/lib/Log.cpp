@@ -4,7 +4,7 @@
 #include <chrono>
 #include <sstream>
 
-namespace Sax{
+namespace sax{
 
 	bool Log::debugMode = false;
 	bool Log::verboseMode = false;

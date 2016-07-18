@@ -2,34 +2,23 @@
 #include "Stage.h"
 #include "Log.h"
 
-namespace Sax
+namespace sax
 {
 
 	Stage::Stage() {
-		texture = NULL;
+		container = new DisplayObject();
 		viewport = {};
 	}
 
 	Stage::~Stage() {
-		SDL_DestroyTexture( texture );
-		setClearColor( 0, 0, 0, 255 );
-	}
-
-	void Stage::update() {
-
-	}
-
-	void Stage::setClearColor( Uint8 r, Uint8 g, Uint8 b, Uint8 a ) {
-		clearColor[ 0 ] = r;
-		clearColor[ 1 ] = g;
-		clearColor[ 2 ] = b;
-		clearColor[ 3 ] = a;
+		delete container;
 	}
 
 	void Stage::setViewport( SDL_Rect viewport ) {
 		this->viewport = viewport;
 	}
 
+	/*
 	void Stage::updateTexture( RendererDescriptor &descriptor ) {
 		//SDL_RenderClear( renderer );
 		if ( texture == NULL ) {
@@ -70,7 +59,16 @@ namespace Sax
 		SDL_RenderCopy( descriptor.renderer, texture, NULL, NULL );
 		return 0;
 	}
+	*/
+	void Stage::render( RendererDescriptor* rendererDescriptor ) {
+		container->draw( rendererDescriptor );
+	}
 
 	void Stage::addChild( DisplayObject* displayObject ) {
+		container->addChild( displayObject );
+	}
+
+	void Stage::removeChild( DisplayObject* displayObject ) {
+		container->removeChild( displayObject );
 	}
 }

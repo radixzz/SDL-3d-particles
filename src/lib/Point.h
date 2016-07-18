@@ -1,7 +1,7 @@
 #ifndef SAX_POINT_H
 #define SAX_POINT_H
 
-namespace Sax {
+namespace sax {
 	class Point {
 		public:
 			Point( int x = 0, int y = 0 );

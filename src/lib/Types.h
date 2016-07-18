@@ -2,8 +2,10 @@
 #define SAX_TYPES_H
 
 #include <SDL.h>
+#include <vector>
+#include "DisplayObject.h"
 
-namespace Sax
+namespace sax
 {
 	struct RendererDescriptor {
 		SDL_Renderer* renderer;

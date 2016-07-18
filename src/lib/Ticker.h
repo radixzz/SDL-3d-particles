@@ -6,7 +6,7 @@
 
 #include "Timer.h"
 
-namespace Sax {
+namespace sax {
 	class Ticker {
 		public:
 			Ticker( std::function<void( double )> );

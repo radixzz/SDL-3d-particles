@@ -3,7 +3,7 @@
 
 #include <SDL.h>
 
-namespace Sax
+namespace sax
 {
 	class Timer {
 		public:
