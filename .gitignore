@@ -5,7 +5,7 @@
 *.layout
 *.vcxproj*
 *.o
-/Debug
 /debug
+/release
 /bin
 /obj

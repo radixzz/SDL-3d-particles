@@ -2,18 +2,22 @@
 #define SAX_STAGE_H
 
 #include <SDL.h>
+#include "Sprite.h"
+#include "Types.h"
+#include "DisplayObject.h"
 
-namespace Sax {
+namespace sax {
 	class Stage {
-		private:
-			SDL_Texture* _texture;
-			Uint8 _clearColor[4];
 		public:
 			Stage();
 			~Stage();
-			void update();
-			void setClearColor( Uint8 r, Uint8 g, Uint8 b, Uint8 a );
-			int copyTo( SDL_Renderer* renderer, int width, int height, int format );
+			void render( RendererDescriptor* rendererDescriptor );
+			void addChild( DisplayObject* displayObject );
+			void removeChild( DisplayObject* displayObject );
+			void setViewport( SDL_Rect viewport );
+		private:
+			SDL_Rect viewport;
+			DisplayObject* container;
 	};
 }
 

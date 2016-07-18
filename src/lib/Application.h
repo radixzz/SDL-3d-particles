@@ -1,25 +1,42 @@
 #ifndef SAX_APPLICATION_H
 #define SAX_APPLICATION_H
+
 #include <SDL.h>
 #include <vector>
-#include "Window.h"
+#include <functional>
 
-namespace Sax {
+#include "Stage.h"
+#include "Types.h"
+#include "Ticker.h"
+
+namespace sax {
+	
 	class Application {
 		public:
-			Application();
+			Application( int width, int height, std::function<void( double )> );
 			~Application();
-			bool initializeSDL();
+			
+			void run();
+			void resize( int, int );
+			void addStage( Stage* stage );
+			void setTitle( std::string title );
+			void setClearColor( Uint8 r, Uint8 g, Uint8 b, Uint8 a );
+		private:
 			void processEvents();
 			void render();
-			bool running();
-			void addWindow( Window* window );
-		private:
+			void renderClear();
+			void onTickerUpdate( double dt );
+			void updateRendererDescriptor();
 			void handleWindowEvent( SDL_WindowEvent* e );
-			void closeWindow( int id );
-			static bool _initted;
-			static bool _running;
-			static std::vector< Window* > _windows;
+			Uint8 clearColor[ 4 ];
+			int width;
+			int height;
+			Ticker* ticker;
+			std::function< void(double) > updateCallback;
+			RendererDescriptor rendererDescriptor;
+			SDL_Window* window;
+			SDL_Renderer* renderer;
+			std::vector< Stage* > stages;
 	};
 }
 
