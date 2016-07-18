@@ -23,21 +23,20 @@ namespace sax {
 	}
 
 	void Texture::fromImage( std::string path ) {
-		SDL_Surface* surface = Resources::get_surface( path );
+		TextureInfo* info = Resources::get_texture_info( path );
 		this->path = path;
-		if ( surface != nullptr ) {
-			realWidth = surface->w;
-			realHeight = surface->h;
-			width = surface->w;
-			height = surface->h;
-			textureCreated = false;
-		}
+		realWidth = info->width;
+		realHeight = info->height;
+		width = info->width;
+		height = info->height;
+		textureCreated = false;
+
 	}
 
 	void Texture::draw( SDL_Renderer* renderer, SDL_Rect* destRect, double rotation, Point* anchor) {
+		
 		if ( textureCreated == false ) {
-			SDL_Surface* surface = Resources::get_surface( path );
-			sdlTexture = SDL_CreateTextureFromSurface( renderer, surface );
+			sdlTexture = Resources::get_texture( renderer, path );
 			textureCreated = true;
 		}
 

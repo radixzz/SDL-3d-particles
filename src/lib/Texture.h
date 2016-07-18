@@ -22,6 +22,7 @@ namespace sax {
 			int realWidth;
 			int realHeight;
 			bool textureCreated;
+			bool valid;
 			SDL_Rect* crop;
 			SDL_Texture* sdlTexture;
 			std::string path;
