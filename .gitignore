@@ -4,6 +4,7 @@
 *.depend
 *.layout
 *.vcxproj*
+*.o
 /Debug
 /debug
 /bin
