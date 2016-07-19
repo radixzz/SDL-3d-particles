@@ -5,7 +5,7 @@ EXE = 3dParticles
 CFLAGS   = -g `sdl2-config --cflags`
 CXXFLAGS = -Wall -Wextra -g `sdl2-config --cflags` -std=c++0x
 LDFLAGS  = `sdl2-config --libs` \
-           -lSDL2_image -lm
+           -lSDL2_image -lSDL2_ttf -lm
 
 INCLUDE = -I"/usr/include/SDL"
 

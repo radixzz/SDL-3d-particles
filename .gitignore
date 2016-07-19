@@ -5,6 +5,7 @@
 *.layout
 *.vcxproj*
 *.o
+3dParticles
 /debug
 /release
 /bin

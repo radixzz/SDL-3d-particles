@@ -45,7 +45,7 @@ int main( int argc, char* args[] ){
 	stage->setViewport( { 0, 0, 100, 100 } );
 	app->addStage( stage );
 	
-	for ( int i = 0; i < 1000; i++ ) {
+	for ( int i = 0; i < 10; i++ ) {
 		Sprite* s = new Sprite();
 		s->position->x = getRand( 0, 800 );
 		s->position->y = getRand( 0, 600 );

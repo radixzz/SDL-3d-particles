@@ -17,8 +17,8 @@ namespace sax {
 			void addChild( DisplayObject* displayObject );
 			void removeChild( DisplayObject* displayObject );
 			virtual void draw( RendererDescriptor* descriptor );
-			DOIterator DisplayObject::begin() const { return children.begin(); }
-			DOIterator DisplayObject::end() const { return children.end(); }
+			DOIterator begin() const { return children.begin(); }
+			DOIterator end() const { return children.end(); }
 			
 			Point* position;
 			Point* anchor;
