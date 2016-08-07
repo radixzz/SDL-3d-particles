@@ -15,7 +15,7 @@ namespace sax {
 		updateCallback = cb;
 		fpsTimer = std::make_unique<Timer>( true );
 		ticker = std::make_unique<Ticker>( std::bind( &Application::onTickerUpdate, this, std::placeholders::_1 ) );
-		window = SDL_CreateWindow( "SaxApp", 0, 0, 0, 0, SDL_WINDOW_SHOWN );
+		window = SDL_CreateWindow( "SaxApp", 0, 0, 0, 0, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL );
 		renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
 		setClearColor( 0, 0, 0, 255 );
 		resize( width, height );

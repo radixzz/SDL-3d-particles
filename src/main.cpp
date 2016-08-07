@@ -18,8 +18,8 @@
 
 using namespace sax;
 
-Application* app = nullptr;
-Stage* stage = nullptr;
+std::unique_ptr<Application> app = nullptr;
+std::unique_ptr<Stage> stage = nullptr;
 
 std::vector< std::unique_ptr<Sprite> > vsprites;
 
@@ -40,11 +40,11 @@ int getRand( int min, int max ) {
 
 int main( int argc, char* args[] ){
 	
-	app = new Application( 1024, 600, update );
+	app = std::make_unique<Application>( 1024, 600, update );
 	app->showFps = true;
-	stage = new Stage();
+	stage = std::make_unique<Stage>();
 	stage->setViewport( { 0, 0, 100, 100 } );
-	app->addStage( stage );
+	app->addStage( stage.get() );
 	
 	for ( int i = 0; i < 10000; i++ ) {
 		std::unique_ptr<Sprite> s = std::make_unique<Sprite>();
@@ -56,11 +56,8 @@ int main( int argc, char* args[] ){
 	}
 	
 	app->run();
-	
-	auto it = vsprites.begin();
 	vsprites.clear();
-	delete app;
-	delete stage;
-
+	app.reset();
+	stage.reset();
     return EXIT_SUCCESS;
 }
