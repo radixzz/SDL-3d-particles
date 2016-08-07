@@ -18,8 +18,9 @@ namespace sax {
 			DisplayObject();
 			virtual ~DisplayObject();
 			void addChild( DisplayObject* displayObject );
+			void addToFront( DisplayObject* displayObject );
 			void removeChild( DisplayObject* displayObject );
-			virtual void draw( RendererDescriptor* descriptor );
+			virtual void draw( const RendererDescriptor* descriptor );
 			DOIterator DisplayObject::begin() const { return children.begin(); }
 			DOIterator DisplayObject::end() const { return children.end(); }
 			
@@ -28,6 +29,7 @@ namespace sax {
 			double rotation;
 		protected:
 			DOVector children;
+			int count;
 			DisplayObject* parent;
 	};
 

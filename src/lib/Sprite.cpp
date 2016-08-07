@@ -7,7 +7,6 @@ namespace sax {
 		this->texture = std::make_unique<Texture>();
 	}
 
-	
 	Sprite::Sprite( std::unique_ptr<Texture> texture ) {
 		this->texture = std::move( texture );
 	}
@@ -22,7 +21,7 @@ namespace sax {
 		height = texture->get_height();
 	}
 
-	void Sprite::draw( RendererDescriptor* rendererDescriptor ) {
+	void Sprite::draw( const RendererDescriptor* rendererDescriptor ) {
 		//Do drawing logic here
 		//Log::info( "Drawing Sprite" );
 		if ( texture != nullptr ) {

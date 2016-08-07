@@ -57,6 +57,7 @@ namespace sax {
 		if ( sdlTexture != nullptr ) {
 			SDL_Point _anchor = { (int)anchor->x, (int)anchor->y };
 			SDL_RenderCopyEx( renderer, sdlTexture, crop, destRect, rotation, &_anchor, SDL_FLIP_NONE );
+			//SDL_RenderCopy(renderer, sdlTexture, crop, destRect);
 		}
 	}
 

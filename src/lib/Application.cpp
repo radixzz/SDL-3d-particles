@@ -24,6 +24,7 @@ namespace sax {
 
 	Application::~Application() {
 		stages.clear();
+		fpsText.reset();
 		SDL_DestroyWindow( window );
 		SDL_DestroyRenderer( renderer );
 		Sax::release();
@@ -105,13 +106,17 @@ namespace sax {
 	void Application::render() {
 		auto it = stages.begin();
 		for ( ; it != stages.end(); ++it ) {
+			
 			if ( this->showFps ) {
 				if ( fpsTimer->getSeconds() > 0.5 ) {
 					fpsTimer->reset();
-					this->fpsText->setText( to_string( ticker->getFPS() ) );
+					std::string label = "FPS @ " + to_string( ticker->getFPS() );
+					SDL_SetWindowTitle( window, label.c_str() );
+					this->fpsText->setText( label );
 				}
 				( *it )->addChild( this->fpsText.get() );
 			}
+			
 			( *it )->render( &rendererDescriptor );
 		}
 		

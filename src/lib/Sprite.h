@@ -15,7 +15,7 @@ namespace sax {
 			Sprite( std::unique_ptr<Texture> texture );
 			~Sprite();
 			void fromImage( std::string path );
-			void draw( RendererDescriptor* descriptor );
+			void draw( const RendererDescriptor* descriptor );
 			int width;
 			int height;
 		protected:

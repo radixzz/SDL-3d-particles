@@ -25,7 +25,8 @@ std::vector< std::unique_ptr<Sprite> > vsprites;
 
 void update( double dt, double time ) {
 	auto it = vsprites.begin();
-	for ( ; it != vsprites.end(); it++ ) {
+	auto end = vsprites.end();
+	for ( ; it != end; ++it ) {
 		( *it )->position->x += dt * 0.1;
 		if ( ( *it )->position->x > 1000 ) {
 			( *it )->position->x = 0;
@@ -39,15 +40,15 @@ int getRand( int min, int max ) {
 
 int main( int argc, char* args[] ){
 	
-	app = new Application( 800, 600, update );
+	app = new Application( 1024, 600, update );
 	app->showFps = true;
 	stage = new Stage();
 	stage->setViewport( { 0, 0, 100, 100 } );
 	app->addStage( stage );
 	
-	for ( int i = 0; i < 100; i++ ) {
+	for ( int i = 0; i < 10000; i++ ) {
 		std::unique_ptr<Sprite> s = std::make_unique<Sprite>();
-		s->position->x = getRand( 0, 800 );
+		s->position->x = getRand( 0, 1024 );
 		s->position->y = getRand( 0, 600 );
 		s->fromImage( "res/piece_vibrance.png" );
 		stage->addChild( s.get() );

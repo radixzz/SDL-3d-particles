@@ -11,6 +11,7 @@ namespace sax {
 		anchor = std::make_unique<Point>();
 		position = std::make_unique<Point>();
 		children = {};
+		count = 0;
 	}
 
 	DisplayObject::~DisplayObject() {
@@ -30,27 +31,32 @@ namespace sax {
 	}
 
 	void DisplayObject::addChild( DisplayObject* displayObject ) {
-		// avoid self aggregation
-		if ( displayObject == this ) return;
+		// avoid self aggregation or already parented objects
+		if ( displayObject == this || displayObject->parent == this ) return;
 		// already in some other parent?
 		if ( parent != nullptr && parent != this ) {
 			parent->removeChild( displayObject );
 		}
-		removeChild( displayObject );
 		children.insert( children.begin(), displayObject );
 		displayObject->parent = this;
 	}
 
+	void DisplayObject::addToFront( DisplayObject* displayObject ) {
+		removeChild( displayObject );
+		addChild( displayObject );
+	}
+
 	void DisplayObject::removeChild( DisplayObject* displayObject ) {
-		auto existingObject = std::find( children.begin(), children.end(), displayObject );
-		if ( existingObject != children.end() ) {
-			children.erase( existingObject );
+		if ( displayObject->parent == this ) {
+			children.erase( std::find( children.begin(), children.end(), displayObject ) );
 		}
 	}
 
-	void DisplayObject::draw( RendererDescriptor* descriptor ) {
+	void DisplayObject::draw( const RendererDescriptor* descriptor ) {
+		if ( children.empty() ) return;
 		auto it = children.rbegin();
-		for ( ; it != children.rend(); it++ ) {
+		auto end = children.rend();
+		for ( ; it != end; ++it ) {
 			( *it )->draw( descriptor );
 		}
 	}

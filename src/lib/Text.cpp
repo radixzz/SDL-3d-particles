@@ -18,6 +18,7 @@ namespace sax {
 
 	Text::~Text() {
 		TTF_CloseFont(font);
+		font = nullptr;
 	}
 
 	void Text::setFontSize( int size ) {
@@ -35,17 +36,19 @@ namespace sax {
 	}
 
 	void Text::updateFont() {
-		if ( font == NULL ) {
+		if ( font == nullptr ) {
 			font = TTF_OpenFont( "res/fonts/Roboto-Medium.ttf", fontSize );
-			if (font == NULL) {
+			if (font == nullptr) {
 				Log::error( "TTF_OpenFont error:" + to_string( TTF_GetError() ) );
 			}
 		}
 	}
 
-	void Text::updateTexture( RendererDescriptor* rendererDescriptor) {
+	void Text::updateTexture( const RendererDescriptor* rendererDescriptor) {
 		if ( dirty ) {
 			dirty = false;
+			if ( text.empty() )
+				return;
 			updateFont();
 			SDL_Surface *surface = nullptr;
 			if ( smooth ) {
@@ -56,7 +59,7 @@ namespace sax {
 				surface = TTF_RenderText_Solid( font, text.c_str(), color );
 			}
 
-			if (surface == NULL) {
+			if (surface == nullptr) {
 				Log::error( "Unable create surface render of text:" + to_string( TTF_GetError() ) );
 			} else {
 				texture->fromSurface( rendererDescriptor->renderer, surface );
@@ -66,7 +69,7 @@ namespace sax {
 		}
 	}
 
-	void Text::draw( RendererDescriptor* rendererDescriptor ) {
+	void Text::draw( const RendererDescriptor* rendererDescriptor ) {
 		
 		updateTexture( rendererDescriptor );
 
