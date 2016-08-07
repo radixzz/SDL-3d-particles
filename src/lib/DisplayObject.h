@@ -21,9 +21,6 @@ namespace sax {
 			void addToFront( DisplayObject* displayObject );
 			void removeChild( DisplayObject* displayObject );
 			virtual void draw( const RendererDescriptor* descriptor );
-			DOIterator DisplayObject::begin() const { return children.begin(); }
-			DOIterator DisplayObject::end() const { return children.end(); }
-			
 			std::unique_ptr< Point > position;
 			std::unique_ptr< Point > anchor;
 			double rotation;
