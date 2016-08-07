@@ -17,7 +17,7 @@ namespace sax {
 		fpsTimer = std::make_unique<Timer>( true );
 		ticker = std::make_unique<Ticker>( std::bind( &Application::onTickerUpdate, this, std::placeholders::_1 ) );
 		window = std::make_unique<Window>( "SaxApp", width, height );
-		setClearColor( 0.5, 0, 0, 1.0 );
+		setClearColor( { 0.5, 0, 0, 1.0 } );
 		resize( width, height );
 		logInfo();
 	}
@@ -54,11 +54,8 @@ namespace sax {
 		}
 	}
 
-	void Application::setClearColor( GLclampf r, GLclampf g, GLclampf b, GLclampf a ) {
-		clearColor[ 0 ] = r;
-		clearColor[ 1 ] = g;
-		clearColor[ 2 ] = b;
-		clearColor[ 3 ] = a;
+	void Application::setClearColor( Color color ) {
+		clearColor = color;
 	}
 
 	void Application::resize( int width, int height ) {
@@ -84,15 +81,13 @@ namespace sax {
 
 	void Application::renderClear() {
 		glClearColor(
-			clearColor[ 0 ],
-			clearColor[ 1 ],
-			clearColor[ 2 ],
-			clearColor[ 3 ]
+			clearColor.r,
+			clearColor.g,
+			clearColor.b,
+			clearColor.a
 		);
 		
 		glClear( GL_COLOR_BUFFER_BIT );
-		
-		//SDL_RenderClear( rendererDescriptor.renderer );
 	}
 
 	void Application::onTickerUpdate( double dt ) {

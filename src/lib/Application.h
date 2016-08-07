@@ -12,6 +12,7 @@
 #include "Types.h"
 #include "Ticker.h"
 #include "Text.h"
+#include "Color.h"
 
 namespace sax {
 	
@@ -24,7 +25,7 @@ namespace sax {
 			void resize( int width, int height );
 			void addStage( Stage* stage );
 			void setTitle( std::string title );
-			void setClearColor( GLclampf r, GLclampf g, GLclampf b, GLclampf a );
+			void setClearColor( Color color );
 			bool showFps;
 		private:
 			void processEvents();
@@ -35,14 +36,12 @@ namespace sax {
 			void updateFpsText();
 			void updateRendererDescriptor();
 			void handleWindowEvent( SDL_WindowEvent* e );
-			GLclampf clearColor[4];
+			Color clearColor;
 			
 			std::unique_ptr<Ticker> ticker;
 			std::function< void( double, double ) > updateCallback;
 			RendererDescriptor rendererDescriptor;
-			//SDL_Window* window;
 			std::unique_ptr<Window> window;
-			//SDL_Renderer* renderer;
 			
 			std::unique_ptr<Text> fpsText;
 			std::unique_ptr<Timer> fpsTimer;
