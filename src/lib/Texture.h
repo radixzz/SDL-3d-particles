@@ -12,8 +12,10 @@ namespace sax {
 		public:
 			Texture();
 			~Texture();
+			void clear();
 			void draw( SDL_Renderer* renderer, SDL_Rect* destRect, double rotation, Point* anchor );
 			void fromImage( std::string path );
+			void fromSurface( SDL_Renderer* renderer, SDL_Surface* surface );
 			int get_width();
 			int get_height();
 		private:
@@ -21,7 +23,6 @@ namespace sax {
 			int height;
 			int realWidth;
 			int realHeight;
-			bool textureCreated;
 			bool valid;
 			SDL_Rect* crop;
 			SDL_Texture* sdlTexture;

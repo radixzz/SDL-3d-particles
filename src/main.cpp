@@ -21,13 +21,12 @@ using namespace sax;
 Application* app = nullptr;
 Stage* stage = nullptr;
 
-std::vector<Sprite*> vsprites;
+std::vector< std::unique_ptr<Sprite> > vsprites;
 
-void update( double dt ) {
-	//Log::info( to_string( dt ) );
+void update( double dt, double time ) {
 	auto it = vsprites.begin();
 	for ( ; it != vsprites.end(); it++ ) {
-		( *it )->position->x += 1;
+		( *it )->position->x += dt * 0.1;
 		if ( ( *it )->position->x > 1000 ) {
 			( *it )->position->x = 0;
 		}
@@ -41,27 +40,24 @@ int getRand( int min, int max ) {
 int main( int argc, char* args[] ){
 	
 	app = new Application( 800, 600, update );
+	app->showFps = true;
 	stage = new Stage();
 	stage->setViewport( { 0, 0, 100, 100 } );
 	app->addStage( stage );
 	
-	for ( int i = 0; i < 1000; i++ ) {
-		Sprite* s = new Sprite();
+	for ( int i = 0; i < 100; i++ ) {
+		std::unique_ptr<Sprite> s = std::make_unique<Sprite>();
 		s->position->x = getRand( 0, 800 );
 		s->position->y = getRand( 0, 600 );
 		s->fromImage( "res/piece_vibrance.png" );
-		vsprites.push_back( s );
-		stage->addChild( s );
+		stage->addChild( s.get() );
+		vsprites.push_back( std::move( s ) );
 	}
 	
 	app->run();
 	
 	auto it = vsprites.begin();
-	while( it != vsprites.end() ) {
-		delete ( *it );
-		it = vsprites.erase( it );
-	}
-
+	vsprites.clear();
 	delete app;
 	delete stage;
 

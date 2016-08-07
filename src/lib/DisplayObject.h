@@ -2,8 +2,11 @@
 #define SAX_DISPLAY_OBJECT_H
 
 #include <vector>
+#include <memory>
+
 #include "Point.h"
 #include "Types.h"
+
 
 namespace sax {
 	
@@ -20,8 +23,8 @@ namespace sax {
 			DOIterator DisplayObject::begin() const { return children.begin(); }
 			DOIterator DisplayObject::end() const { return children.end(); }
 			
-			Point* position;
-			Point* anchor;
+			std::unique_ptr< Point > position;
+			std::unique_ptr< Point > anchor;
 			double rotation;
 		protected:
 			DOVector children;

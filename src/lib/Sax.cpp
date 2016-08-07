@@ -1,11 +1,4 @@
-#include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
-
 #include "Sax.h"
-#include "Log.h"
-#include "Utils.h"
-#include "Resources.h"
 
 namespace sax {
 
@@ -24,6 +17,7 @@ namespace sax {
 		Log::info( "Initializing Sax..." );
 		try {
 			initialize_sdl();
+			//print_opengl_info();
 			initialize_image();
 			initialize_ttf();
 			initted = true;
@@ -38,6 +32,7 @@ namespace sax {
 		if ( initted == true ) {
 			Log::info( "Releasing Sax..." );
 			Resources::release_all();
+			TTF_Quit();
 			IMG_Quit();
 			SDL_Quit();
 			initted = false;
@@ -47,7 +42,10 @@ namespace sax {
 	void Sax::initialize_sdl() {
 		if ( SDL_Init( SDL_FLAGS ) < 0 ) {
 			throw std::runtime_error( "SDL_Init: " + to_string( SDL_GetError() ) );
+		} else {
+			SDL_GL_SetSwapInterval( 1 );
 		}
+
 	}
 
 	void Sax::initialize_image() {

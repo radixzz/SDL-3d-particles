@@ -5,7 +5,7 @@ namespace sax {
 		tickCallback = cb;
 		lastFrameTime = 0.f;
 		running = false;
-		fpsTimer = Timer( true );
+		fpsTimer = std::make_unique<Timer>( true );
 	}
 
 	Ticker::~Ticker() {
@@ -21,11 +21,15 @@ namespace sax {
 		return sum / fpsSamples.size();
 	}
 
+	double Ticker::getElapsedTime() {
+		return fpsTimer->getSeconds();
+	}
+
 	void Ticker::resume() {
 		running = true;
 		while ( running ) {
-			double frameTime = fpsTimer.getTicks() - lastFrameTime;
-			lastFrameTime = fpsTimer.getTicks();
+			double frameTime = fpsTimer->getTicks() - lastFrameTime;
+			lastFrameTime = fpsTimer->getTicks();
 			if ( fpsSamples.size() > 100 ) {
 				fpsSamples.pop_back();
 			}

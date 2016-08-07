@@ -2,6 +2,9 @@
 #define SAX_STAGE_H
 
 #include <SDL.h>
+#include <memory>
+//#include <iostream>
+
 #include "Sprite.h"
 #include "Types.h"
 #include "DisplayObject.h"
@@ -17,7 +20,7 @@ namespace sax {
 			void setViewport( SDL_Rect viewport );
 		private:
 			SDL_Rect viewport;
-			DisplayObject* container;
+			std::shared_ptr<DisplayObject> container;
 	};
 }
 

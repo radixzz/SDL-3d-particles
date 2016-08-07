@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include <memory>
 #include "Stage.h"
 #include "Log.h"
 
@@ -6,12 +7,11 @@ namespace sax
 {
 
 	Stage::Stage() {
-		container = new DisplayObject();
-		viewport = {};
+		container = std::make_unique< DisplayObject >();
+		viewport = { 0 };
 	}
 
 	Stage::~Stage() {
-		delete container;
 	}
 
 	void Stage::setViewport( SDL_Rect viewport ) {

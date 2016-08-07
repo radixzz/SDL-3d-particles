@@ -1,17 +1,22 @@
+#include <memory>
+#include <iostream>
+#include <algorithm>
+
 #include "DisplayObject.h"
 #include "Log.h"
 #include "Types.h"
-#include <algorithm>
 
 namespace sax {
 	DisplayObject::DisplayObject(): rotation(0.f) {
-		anchor = new Point();
-		position = new Point();
+		anchor = std::make_unique<Point>();
+		position = std::make_unique<Point>();
 		children = {};
 	}
 
 	DisplayObject::~DisplayObject() {
 		//Log::info( "Destroying Display Object" );
+		
+		// remove self from any parent
 		if ( parent != nullptr ) {
 			parent->removeChild( this );
 		}
@@ -22,9 +27,6 @@ namespace sax {
 			removeChild( *it );
 			it = children.begin();
 		}
-
-		delete anchor;
-		delete position;
 	}
 
 	void DisplayObject::addChild( DisplayObject* displayObject ) {
@@ -42,14 +44,13 @@ namespace sax {
 	void DisplayObject::removeChild( DisplayObject* displayObject ) {
 		auto existingObject = std::find( children.begin(), children.end(), displayObject );
 		if ( existingObject != children.end() ) {
-			( *existingObject )->parent = nullptr;
 			children.erase( existingObject );
 		}
 	}
 
 	void DisplayObject::draw( RendererDescriptor* descriptor ) {
-		auto it = children.begin();
-		for ( ; it != children.end(); it++ ) {
+		auto it = children.rbegin();
+		for ( ; it != children.rend(); it++ ) {
 			( *it )->draw( descriptor );
 		}
 	}

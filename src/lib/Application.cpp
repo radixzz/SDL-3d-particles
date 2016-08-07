@@ -10,22 +10,42 @@
 
 namespace sax {
 
-	Application::Application( int width, int height, std::function<void( double )> cb ) {
+	Application::Application( int width, int height, std::function<void( double, double )> cb ) {
 		Sax::initialize();
 		updateCallback = cb;
-		ticker = new Ticker( std::bind( &Application::onTickerUpdate, this, std::placeholders::_1 ) );
+		fpsTimer = std::make_unique<Timer>( true );
+		ticker = std::make_unique<Ticker>( std::bind( &Application::onTickerUpdate, this, std::placeholders::_1 ) );
 		window = SDL_CreateWindow( "SaxApp", 0, 0, 0, 0, SDL_WINDOW_SHOWN );
-		renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
+		renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
 		setClearColor( 0, 0, 0, 255 );
 		resize( width, height );
+		logInfo();
 	}
 
 	Application::~Application() {
-		delete ticker;
 		stages.clear();
 		SDL_DestroyWindow( window );
 		SDL_DestroyRenderer( renderer );
 		Sax::release();
+	}
+
+	void Application::logInfo() {
+		SDL_RendererInfo info;
+		SDL_GetRendererInfo( renderer, &info );
+		std::string accelerated = ( SDL_RENDERER_ACCELERATED & info.flags ) ? "Yes" : "No";
+		auto texW = to_string( info.max_texture_width );
+		auto texH = to_string( info.max_texture_height );
+		Log::info( "HW Acceleration: " + accelerated );
+		Log::info( "Renderer name: " + to_string( info.name ) );
+		Log::info( "Max texture size: " + texW + "x" + texH );
+	}
+
+	void Application::updateFpsText() {
+		if (this->fpsText == NULL) {
+			this->fpsText = std::make_unique<Text>( "Roboto", 16 );
+			this->fpsText->position->x = 10;
+			this->fpsText->position->y = 10;
+		}
 	}
 
 	void Application::setClearColor( Uint8 r, Uint8 g, Uint8 b, Uint8 a ) {
@@ -77,16 +97,24 @@ namespace sax {
 	void Application::onTickerUpdate( double dt ) {
 		processEvents();
 		renderClear();
-		updateCallback( dt );
+		updateCallback( dt, ticker->getElapsedTime() );
+		updateFpsText();
 		render();
 	}
 
 	void Application::render() {
 		auto it = stages.begin();
 		for ( ; it != stages.end(); ++it ) {
+			if ( this->showFps ) {
+				if ( fpsTimer->getSeconds() > 0.5 ) {
+					fpsTimer->reset();
+					this->fpsText->setText( to_string( ticker->getFPS() ) );
+				}
+				( *it )->addChild( this->fpsText.get() );
+			}
 			( *it )->render( &rendererDescriptor );
 		}
-
+		
 		SDL_RenderPresent( renderer );
 	}
 
