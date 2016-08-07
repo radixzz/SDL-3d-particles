@@ -46,11 +46,11 @@ int main( int argc, char* args[] ){
 	stage->setViewport( { 0, 0, 100, 100 } );
 	app->addStage( stage.get() );
 	
-	for ( int i = 0; i < 10000; i++ ) {
+	for ( int i = 0; i < 10; i++ ) {
 		std::unique_ptr<Sprite> s = std::make_unique<Sprite>();
 		s->position->x = getRand( 0, 1024 );
 		s->position->y = getRand( 0, 600 );
-		s->fromImage( "res/piece_vibrance.png" );
+		//s->fromImage( "res/piece_vibrance.png" );
 		stage->addChild( s.get() );
 		vsprites.push_back( std::move( s ) );
 	}

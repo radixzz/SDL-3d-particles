@@ -1,12 +1,13 @@
 #ifndef SAX_APPLICATION_H
 #define SAX_APPLICATION_H
-
+#include <gl\glew.h>
 #include <SDL.h>
 #include <vector>
 #include <functional>
 #include <iostream>
 #include <memory>
 
+#include "Window.h"
 #include "Stage.h"
 #include "Types.h"
 #include "Ticker.h"
@@ -20,10 +21,10 @@ namespace sax {
 			~Application();
 			
 			void run();
-			void resize( int, int );
+			void resize( int width, int height );
 			void addStage( Stage* stage );
 			void setTitle( std::string title );
-			void setClearColor( Uint8 r, Uint8 g, Uint8 b, Uint8 a );
+			void setClearColor( GLclampf r, GLclampf g, GLclampf b, GLclampf a );
 			bool showFps;
 		private:
 			void processEvents();
@@ -34,14 +35,15 @@ namespace sax {
 			void updateFpsText();
 			void updateRendererDescriptor();
 			void handleWindowEvent( SDL_WindowEvent* e );
-			Uint8 clearColor[ 4 ];
-			int width;
-			int height;
+			GLclampf clearColor[4];
+			
 			std::unique_ptr<Ticker> ticker;
 			std::function< void( double, double ) > updateCallback;
 			RendererDescriptor rendererDescriptor;
-			SDL_Window* window;
-			SDL_Renderer* renderer;
+			//SDL_Window* window;
+			std::unique_ptr<Window> window;
+			//SDL_Renderer* renderer;
+			
 			std::unique_ptr<Text> fpsText;
 			std::unique_ptr<Timer> fpsTimer;
 			std::vector< Stage* > stages;

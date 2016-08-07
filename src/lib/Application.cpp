@@ -1,3 +1,4 @@
+#include <gl\glew.h>
 #include <SDL.h>
 #include <algorithm>
 #include <functional>
@@ -15,9 +16,8 @@ namespace sax {
 		updateCallback = cb;
 		fpsTimer = std::make_unique<Timer>( true );
 		ticker = std::make_unique<Ticker>( std::bind( &Application::onTickerUpdate, this, std::placeholders::_1 ) );
-		window = SDL_CreateWindow( "SaxApp", 0, 0, 0, 0, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL );
-		renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
-		setClearColor( 0, 0, 0, 255 );
+		window = std::make_unique<Window>( "SaxApp", width, height );
+		setClearColor( 0.5, 0, 0, 1.0 );
 		resize( width, height );
 		logInfo();
 	}
@@ -25,12 +25,16 @@ namespace sax {
 	Application::~Application() {
 		stages.clear();
 		fpsText.reset();
-		SDL_DestroyWindow( window );
-		SDL_DestroyRenderer( renderer );
+		window.reset();
 		Sax::release();
 	}
 
+	void Application::setTitle( std::string title ) {
+		this->window->setTitle( title );
+	}
+
 	void Application::logInfo() {
+		/*
 		SDL_RendererInfo info;
 		SDL_GetRendererInfo( renderer, &info );
 		std::string accelerated = ( SDL_RENDERER_ACCELERATED & info.flags ) ? "Yes" : "No";
@@ -39,6 +43,7 @@ namespace sax {
 		Log::info( "HW Acceleration: " + accelerated );
 		Log::info( "Renderer name: " + to_string( info.name ) );
 		Log::info( "Max texture size: " + texW + "x" + texH );
+		*/
 	}
 
 	void Application::updateFpsText() {
@@ -49,7 +54,7 @@ namespace sax {
 		}
 	}
 
-	void Application::setClearColor( Uint8 r, Uint8 g, Uint8 b, Uint8 a ) {
+	void Application::setClearColor( GLclampf r, GLclampf g, GLclampf b, GLclampf a ) {
 		clearColor[ 0 ] = r;
 		clearColor[ 1 ] = g;
 		clearColor[ 2 ] = b;
@@ -57,13 +62,8 @@ namespace sax {
 	}
 
 	void Application::resize( int width, int height ) {
-		this->width = width;
-		this->height = height;
-		if ( window != NULL ) {
-			SDL_SetWindowSize( window, width, height );
-			SDL_SetWindowPosition( window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED );
-			updateRendererDescriptor();
-		}
+		this->window->resize( width, height );
+		//updateRendererDescriptor();
 	}
 
 	void Application::processEvents() {
@@ -83,16 +83,16 @@ namespace sax {
 	}
 
 	void Application::renderClear() {
-		
-		SDL_SetRenderDrawColor( 
-			rendererDescriptor.renderer,
+		glClearColor(
 			clearColor[ 0 ],
 			clearColor[ 1 ],
 			clearColor[ 2 ],
 			clearColor[ 3 ]
 		);
 		
-		SDL_RenderClear( rendererDescriptor.renderer );
+		glClear( GL_COLOR_BUFFER_BIT );
+		
+		//SDL_RenderClear( rendererDescriptor.renderer );
 	}
 
 	void Application::onTickerUpdate( double dt ) {
@@ -111,7 +111,7 @@ namespace sax {
 				if ( fpsTimer->getSeconds() > 0.5 ) {
 					fpsTimer->reset();
 					std::string label = "FPS @ " + to_string( ticker->getFPS() );
-					SDL_SetWindowTitle( window, label.c_str() );
+					this->window->setTitle( label );
 					this->fpsText->setText( label );
 				}
 				( *it )->addChild( this->fpsText.get() );
@@ -119,17 +119,21 @@ namespace sax {
 			
 			( *it )->render( &rendererDescriptor );
 		}
+
+		window->update();
 		
-		SDL_RenderPresent( renderer );
+		//SDL_RenderPresent( renderer );
 	}
 
 	void Application::updateRendererDescriptor() {
+		/*
 		rendererDescriptor = {
 			renderer,
 			width,
 			height,
 			SDL_PIXELFORMAT_RGBA8888
 		};
+		*/
 	}
 
 	void Application::addStage( Stage* stage ) {
