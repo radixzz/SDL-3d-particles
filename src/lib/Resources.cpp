@@ -13,6 +13,31 @@ namespace sax {
 		return std::hash<std::string>()( path );
 	}
 
+	std::string Resources::getFileContents( std::string filePath ) {
+		SDL_RWops* rwOps = SDL_RWFromFile( filePath.c_str(), "r" );
+		if ( rwOps == NULL ) {
+			Log::info( "getFileContents error: " + to_string( SDL_GetError() ) );
+			return "";
+		} else {
+			Sint64 size = SDL_RWsize( rwOps );
+			char* res = new char[ size + 1 ];
+			Sint64 total = 0, read = 1;
+			char* buff = res;
+
+			while ( total < size && read != 0 ) {
+				read = SDL_RWread( rwOps, buff, 1, ( size - total ) );
+				total += read;
+				buff += read;
+			}
+			res[ total ] = '\0';
+			std::string result(res, total);
+			delete res;
+			SDL_RWclose( rwOps );
+			return result;
+		}
+		
+	}
+
 	bool Resources::file_exists( std::string path ) {
 		return SDL_RWFromFile( path.c_str(), "r" ) != NULL;
 	}

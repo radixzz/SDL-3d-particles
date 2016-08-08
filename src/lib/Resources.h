@@ -12,10 +12,10 @@ namespace sax {
 			static bool file_exists( std::string path );
 			static TextureInfo* get_texture_info( std::string path );
 			static SDL_Texture* get_texture( SDL_Renderer* renderer, std::string path );
+			static std::string getFileContents( std::string filePath );
 			static void release_all();
 		private:
 			Resources();
-			~Resources();
 			static int get_path_id( std::string path );
 			static SDL_Texture* get_texture_from_cache( std::string path );
 			static void add_texture_to_cache( std::string path, SDL_Texture* texture, TextureInfo* info );
