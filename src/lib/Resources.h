@@ -5,6 +5,7 @@
 #include <SDL.h>
 
 #include "Types.h"
+#include "Shader.h"
 
 namespace sax {
 	class Resources {
@@ -12,6 +13,7 @@ namespace sax {
 			static bool file_exists( std::string path );
 			static TextureInfo* get_texture_info( std::string path );
 			static SDL_Texture* get_texture( SDL_Renderer* renderer, std::string path );
+			static Shader* get_shader( std::string id, std::string vertexSrc, std::string fragmentSrc );
 			static std::string getFileContents( std::string filePath );
 			static void release_all();
 		private:

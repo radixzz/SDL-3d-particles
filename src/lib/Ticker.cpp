@@ -3,7 +3,7 @@
 namespace sax {
 	Ticker::Ticker( std::function<void( double )> cb ) {
 		tickCallback = cb;
-		lastFrameTime = 0.f;
+		lastFrameTime = 0.1f;
 		running = false;
 		fpsTimer = std::make_unique<Timer>( true );
 	}
@@ -14,8 +14,8 @@ namespace sax {
 
 	double Ticker::getFPS() {
 		double sum = 0;
-		auto it = fpsSamples.begin();
-		for ( ; it != fpsSamples.end(); it++ ) {
+		auto it = fpsSamples.begin(), end = fpsSamples.end();
+		for ( ; it != end; it++ ) {
 			sum += *it;
 		}
 		return sum / fpsSamples.size();

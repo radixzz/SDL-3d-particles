@@ -1,6 +1,7 @@
 #include <SDL.h>
 #include "Window.h"
 #include "Sax.h"
+#include "Resources.h"
 
 namespace sax {
 	
@@ -9,6 +10,7 @@ namespace sax {
 		this->resize( width, height );
 		glContext = SDL_GL_CreateContext( sdlWindow );
 		Sax::initialize_glew();
+		Resources::get_shader( "default", "", "" )->use();
 	}
 
 	Window::~Window() {
@@ -20,6 +22,7 @@ namespace sax {
 		this->width = width;
 		this->height = height;
 		if ( sdlWindow != nullptr ) {
+			glViewport( 0, 0, width, height );
 			SDL_SetWindowSize( sdlWindow, width, height );
 			SDL_SetWindowPosition( sdlWindow, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED );
 		}

@@ -1,13 +1,17 @@
 #include <SDL.h>
 #include <SDL_image.h>
+#include <memory>
 
 #include "Resources.h"
+
 #include "Log.h"
 #include "Utils.h"
+
 
 namespace sax {
 
 	static std::map< size_t, TextureCacheEntry* > TextureCache = {};
+	static std::map< std::string, std::unique_ptr< Shader > > ShaderCache = {};
 	
 	int Resources::get_path_id( std::string path ) {
 		return std::hash<std::string>()( path );
@@ -19,9 +23,9 @@ namespace sax {
 			Log::info( "getFileContents error: " + to_string( SDL_GetError() ) );
 			return "";
 		} else {
-			Sint64 size = SDL_RWsize( rwOps );
+			size_t size = size_t( SDL_RWsize( rwOps ) );
 			char* res = new char[ size + 1 ];
-			Sint64 total = 0, read = 1;
+			size_t total = 0, read = 1;
 			char* buff = res;
 
 			while ( total < size && read != 0 ) {
@@ -77,6 +81,18 @@ namespace sax {
 		entry->texture = texture != nullptr ? texture : entry->texture;
 		entry->textureInfo = info != nullptr ? info : entry->textureInfo;
 		TextureCache[ id ] = entry;
+	}
+	
+	Shader* Resources::get_shader( std::string id, std::string vertexSrc, std::string fragmentSrc ) {	
+		auto it = ShaderCache.find( id );
+		if ( it != ShaderCache.end() ) {
+			return it->second.get();
+		} else {
+			auto shader = std::make_unique<Shader>();
+			shader->load( vertexSrc, fragmentSrc );
+			ShaderCache[ id ] = std::move( shader );
+			return ShaderCache[ id ].get();
+		}
 	}
 
 	TextureInfo* Resources::get_texture_info( std::string path ) {

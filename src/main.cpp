@@ -16,6 +16,8 @@
 #include "lib/Utils.h"
 #include "lib/Timer.h"
 
+#include "lib\Resources.h"
+
 using namespace sax;
 
 std::unique_ptr<Application> app = nullptr;
