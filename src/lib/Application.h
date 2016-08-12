@@ -31,6 +31,7 @@ namespace sax {
 			void processEvents();
 			void render();
 			void logInfo();
+			void renderFps( Stage* stage );
 			void renderClear();
 			void onTickerUpdate( double dt );
 			void updateFpsText();

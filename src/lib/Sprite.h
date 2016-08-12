@@ -12,14 +12,13 @@ namespace sax {
 	class Sprite: public DisplayObject {
 		public:
 			Sprite();
-			Sprite( std::unique_ptr<Texture> texture );
 			~Sprite();
 			void fromImage( std::string path );
 			void draw( const RendererDescriptor* descriptor );
 			int width;
 			int height;
 		protected:
-			std::unique_ptr< Texture > texture;
+			std::string path;
 	};
 }
 

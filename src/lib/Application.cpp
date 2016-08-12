@@ -87,7 +87,7 @@ namespace sax {
 			clearColor.a
 		);
 		
-		glClear( GL_COLOR_BUFFER_BIT );
+		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 	}
 
 	void Application::onTickerUpdate( double dt ) {
@@ -98,20 +98,23 @@ namespace sax {
 		render();
 	}
 
+	void Application::renderFps( Stage* stage ) {
+		if ( this->showFps ) {
+			if ( fpsTimer->getSeconds() > 0.5 ) {
+				fpsTimer->reset();
+				std::string label = "FPS @ " + to_string( ticker->getFPS() );
+				this->window->setTitle( label );
+				this->fpsText->setText( label );
+			}
+			stage->addChild( this->fpsText.get() );
+		}
+	}
+
 	void Application::render() {
 		auto it = stages.begin();
+
 		for ( ; it != stages.end(); ++it ) {
-			
-			if ( this->showFps ) {
-				if ( fpsTimer->getSeconds() > 0.5 ) {
-					fpsTimer->reset();
-					std::string label = "FPS @ " + to_string( ticker->getFPS() );
-					this->window->setTitle( label );
-					this->fpsText->setText( label );
-				}
-				( *it )->addChild( this->fpsText.get() );
-			}
-			
+			renderFps( *it );
 			( *it )->render( &rendererDescriptor );
 		}
 

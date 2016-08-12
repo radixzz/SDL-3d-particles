@@ -5,6 +5,7 @@
 #include <map>
 
 #include "Point.h"
+#include "Shader.h"
 
 namespace sax {
 	
@@ -13,9 +14,10 @@ namespace sax {
 			Texture();
 			~Texture();
 			void clear();
-			void draw( SDL_Renderer* renderer, SDL_Rect* destRect, double rotation, Point* anchor );
+			void bind();
+			void unbind();
 			void fromImage( std::string path );
-			void fromSurface( SDL_Renderer* renderer, SDL_Surface* surface );
+			void fromSurface( SDL_Surface* surface );
 			int get_width();
 			int get_height();
 		private:
@@ -23,9 +25,7 @@ namespace sax {
 			int height;
 			int realWidth;
 			int realHeight;
-			bool valid;
-			SDL_Rect* crop;
-			SDL_Texture* sdlTexture;
+			GLuint textureId;
 			std::string path;
 	};
 }

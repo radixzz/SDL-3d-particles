@@ -2,6 +2,7 @@
 #define SAX_TYPES_H
 
 #include <SDL.h>
+#include <gl\glew.h>
 
 namespace sax
 {
@@ -12,15 +13,11 @@ namespace sax
 		Uint32 pixelFormat;
 	};
 
-	struct TextureInfo {
+	struct TextureCacheEntry {
+		GLuint textureId;
+		Uint32 pixelFormat;
 		int width;
 		int height;
-		Uint32 pixelFormat;
-	};
-
-	struct TextureCacheEntry {
-		SDL_Texture* texture;
-		TextureInfo* textureInfo;
 	};
 }
 
