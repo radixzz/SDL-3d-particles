@@ -4,7 +4,6 @@
 #include <SDL.h>
 #include <map>
 
-#include "Point.h"
 #include "Shader.h"
 
 namespace sax {
@@ -18,13 +17,15 @@ namespace sax {
 			void unbind();
 			void fromImage( std::string path );
 			void fromSurface( SDL_Surface* surface );
+			SDL_Surface* resizeSurface( SDL_Surface* surface, const int& width, const int& height );
+			int getNearestPowerOf2( int num );
 			int get_width();
 			int get_height();
 		private:
 			int width;
 			int height;
-			int realWidth;
-			int realHeight;
+			int naturalWidth;
+			int naturalHeight;
 			GLuint textureId;
 			std::string path;
 	};

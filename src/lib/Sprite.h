@@ -4,9 +4,9 @@
 #include <memory>
 #include <iostream>
 
+#include "Renderer.h"
 #include "DisplayObject.h"
 #include "Texture.h"
-#include "Types.h"
 
 namespace sax {
 	class Sprite: public DisplayObject {
@@ -14,11 +14,12 @@ namespace sax {
 			Sprite();
 			~Sprite();
 			void fromImage( std::string path );
-			void draw( const RendererDescriptor* descriptor );
+			void draw( Renderer* renderer );
 			int width;
 			int height;
 		protected:
 			std::string path;
+			Shader* shader;
 	};
 }
 

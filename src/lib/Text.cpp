@@ -8,6 +8,7 @@
 namespace sax {
 	
 	Text::Text( std::string fontName, int _fontSize = 24 ) {
+		texture = std::make_unique<Texture>();
 		setFontSize( _fontSize );
 		setFontFamily( fontName );
 		this->text = "";
@@ -44,7 +45,7 @@ namespace sax {
 		}
 	}
 
-	void Text::updateTexture( const RendererDescriptor* rendererDescriptor) {
+	void Text::updateTexture( Renderer* renderer) {
 		if ( dirty ) {
 			dirty = false;
 			if ( text.empty() )
@@ -62,25 +63,25 @@ namespace sax {
 			if (surface == nullptr) {
 				Log::error( "Unable create surface render of text:" + to_string( TTF_GetError() ) );
 			} else {
-				texture->fromSurface( rendererDescriptor->renderer, surface );
+				texture->fromSurface( surface );
 			}
 
 			SDL_FreeSurface(surface);
 		}
 	}
 
-	void Text::draw( const RendererDescriptor* rendererDescriptor ) {
+	void Text::draw( Renderer* renderer ) {
 		
-		updateTexture( rendererDescriptor );
+		updateTexture( renderer );
 
 		SDL_Rect rect = {
-			int( position->x ),
-			int( position->y ),
+			int( position.x ),
+			int( position.y ),
 			texture->get_width(),
 			texture->get_height()
 		};
 
-		texture->draw( rendererDescriptor->renderer, &rect, rotation, anchor.get() );
+		//texture->draw( rendererDescriptor->renderer, &rect, rotation, anchor.get() );
 	}
 
 	void Text::setText( std::string text ) {

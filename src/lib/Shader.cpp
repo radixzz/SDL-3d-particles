@@ -9,7 +9,8 @@ namespace sax {
 	}
 
 	Shader::~Shader() {
-
+		//glDetachShader( program )
+		glDeleteProgram( program );
 	}
 
 	Shader& Shader::load( std::string vertexSrc, std::string fragmentSrc ) {
@@ -86,6 +87,8 @@ namespace sax {
 		}
 		return *this;
 	}
+
+
 
 	std::string Shader::getDefaultVertex() {
 		return

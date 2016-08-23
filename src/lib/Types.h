@@ -6,12 +6,6 @@
 
 namespace sax
 {
-	struct RendererDescriptor {
-		SDL_Renderer* renderer;
-		int width;
-		int height;
-		Uint32 pixelFormat;
-	};
 
 	struct TextureCacheEntry {
 		GLuint textureId;

@@ -9,7 +9,7 @@ namespace sax {
 		sdlWindow = SDL_CreateWindow( title.c_str(), 0, 0, 0, 0, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL );
 		this->resize( width, height );
 		glContext = SDL_GL_CreateContext( sdlWindow );
-		Sax::initialize_glew();
+		renderer = std::make_unique< Renderer >( width, height );
 		Resources::get_shader( "default", "", "" )->use();
 	}
 

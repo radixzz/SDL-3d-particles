@@ -8,6 +8,7 @@ namespace sax {
 
 	Sprite::~Sprite() {
 		//Log::info( "Destroying Sprite" );
+		shader = Resources::get_shader( "sprite" );
 	}
 
 	void Sprite::fromImage( std::string path ) {
@@ -17,8 +18,8 @@ namespace sax {
 		height = texture->get_height();
 	}
 
-	void Sprite::draw( const RendererDescriptor* rendererDescriptor ) {
-		
-		DisplayObject::draw( rendererDescriptor );
+	void Sprite::draw( Renderer* renderer ) {
+		//renderer->render( this );
+		DisplayObject::draw( renderer );
 	}
 }

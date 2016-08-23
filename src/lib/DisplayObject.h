@@ -2,30 +2,30 @@
 #define SAX_DISPLAY_OBJECT_H
 
 #include <vector>
+
 #include <memory>
+#include <iostream>
+#include <algorithm>
+#include <glm\glm.hpp>
 
-#include "Point.h"
-#include "Types.h"
-
+#include "Renderer.h"
+#include "Log.h"
 
 namespace sax {
 	
 	class DisplayObject {
 		public:
-			typedef std::vector< DisplayObject* > DOVector;
-			typedef DOVector::const_iterator DOIterator;
-
 			DisplayObject();
 			virtual ~DisplayObject();
 			void addChild( DisplayObject* displayObject );
 			void addToFront( DisplayObject* displayObject );
 			void removeChild( DisplayObject* displayObject );
-			virtual void draw( const RendererDescriptor* descriptor );
-			std::unique_ptr< Point > position;
-			std::unique_ptr< Point > anchor;
+			virtual void draw( Renderer* renderer );
+			glm::vec2 position;
+			glm::vec2 anchor;
 			double rotation;
 		protected:
-			DOVector children;
+			std::vector< DisplayObject* > children;
 			int count;
 			DisplayObject* parent;
 	};

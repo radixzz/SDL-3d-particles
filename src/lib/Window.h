@@ -3,6 +3,9 @@
 
 #include <SDL.h>
 #include <string>
+#include <memory>
+
+#include "Renderer.h"
 
 namespace sax {
 	class Window {
@@ -12,6 +15,7 @@ namespace sax {
 			void resize( int width, int height );
 			void setTitle( std::string title );
 			void update();
+			std::unique_ptr<Renderer> renderer;
 		protected:
 			SDL_GLContext glContext;
 			SDL_Window* sdlWindow;

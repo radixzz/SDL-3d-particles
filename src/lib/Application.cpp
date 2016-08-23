@@ -49,8 +49,8 @@ namespace sax {
 	void Application::updateFpsText() {
 		if (this->fpsText == NULL) {
 			this->fpsText = std::make_unique<Text>( "Roboto", 16 );
-			this->fpsText->position->x = 10;
-			this->fpsText->position->y = 10;
+			this->fpsText->position.x = 10;
+			this->fpsText->position.y = 10;
 		}
 	}
 
@@ -60,7 +60,7 @@ namespace sax {
 
 	void Application::resize( int width, int height ) {
 		this->window->resize( width, height );
-		//updateRendererDescriptor();
+		
 	}
 
 	void Application::processEvents() {
@@ -100,7 +100,7 @@ namespace sax {
 
 	void Application::renderFps( Stage* stage ) {
 		if ( this->showFps ) {
-			if ( fpsTimer->getSeconds() > 0.5 ) {
+			if ( fpsTimer->getSeconds() > 0.33 ) {
 				fpsTimer->reset();
 				std::string label = "FPS @ " + to_string( ticker->getFPS() );
 				this->window->setTitle( label );
@@ -115,23 +115,10 @@ namespace sax {
 
 		for ( ; it != stages.end(); ++it ) {
 			renderFps( *it );
-			( *it )->render( &rendererDescriptor );
+			( *it )->render( window->renderer.get() );
 		}
 
 		window->update();
-		
-		//SDL_RenderPresent( renderer );
-	}
-
-	void Application::updateRendererDescriptor() {
-		/*
-		rendererDescriptor = {
-			renderer,
-			width,
-			height,
-			SDL_PIXELFORMAT_RGBA8888
-		};
-		*/
 	}
 
 	void Application::addStage( Stage* stage ) {

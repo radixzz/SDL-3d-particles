@@ -35,15 +35,11 @@ namespace sax {
 			void renderClear();
 			void onTickerUpdate( double dt );
 			void updateFpsText();
-			void updateRendererDescriptor();
-			void handleWindowEvent( SDL_WindowEvent* e );
+			//void handleWindowEvent( SDL_WindowEvent* e );
 			Color clearColor;
-			
 			std::unique_ptr<Ticker> ticker;
 			std::function< void( double, double ) > updateCallback;
-			RendererDescriptor rendererDescriptor;
 			std::unique_ptr<Window> window;
-			
 			std::unique_ptr<Text> fpsText;
 			std::unique_ptr<Timer> fpsTimer;
 			std::vector< Stage* > stages;

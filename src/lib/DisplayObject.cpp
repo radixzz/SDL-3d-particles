@@ -1,15 +1,9 @@
-#include <memory>
-#include <iostream>
-#include <algorithm>
-
 #include "DisplayObject.h"
-#include "Log.h"
-#include "Types.h"
 
 namespace sax {
 	DisplayObject::DisplayObject(): rotation(0.f) {
-		anchor = std::make_unique<Point>();
-		position = std::make_unique<Point>();
+		anchor = glm::vec2();
+		position = glm::vec2();
 		children = {};
 		count = 0;
 	}
@@ -52,13 +46,15 @@ namespace sax {
 		}
 	}
 
-	void DisplayObject::draw( const RendererDescriptor* descriptor ) {
+	void DisplayObject::draw( Renderer* renderer ) {
+		/*
 		if ( children.empty() ) return;
 		auto it = children.rbegin();
 		auto end = children.rend();
 		for ( ; it != end; ++it ) {
-			( *it )->draw( descriptor );
+			( *it )->draw( renderer );
 		}
+		*/
 	}
 
 }

@@ -1,6 +1,5 @@
 #include "Sax.h"
 
-#include <GL\glew.h>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
@@ -25,7 +24,6 @@ namespace sax {
 		Log::info( "Initializing Sax..." );
 		try {
 			initialize_sdl();
-			initialize_gl();
 			initialize_image();
 			initialize_ttf();
 			initted = true;
@@ -53,26 +51,6 @@ namespace sax {
 		} else {
 			SDL_GL_SetSwapInterval( 1 );
 		}
-	}
-
-	void Sax::initialize_gl() {
-		SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES );
-		//SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE );
-		SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 2 );
-		SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 0 );
-		SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 24 );
-		SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
-		glEnable( GL_DEPTH_TEST );
-	}
-
-	void Sax::initialize_glew() {
-		SDL_GL_SetSwapInterval( 1 ); // VSYNC 1 = ENABLED
-		glewExperimental = GL_TRUE;
-		GLenum err = glewInit();
-		if ( err != GLEW_OK ) {
-			Log::info( "Glew init error: " + to_string( glewGetErrorString( err ) ) );
-		}
-		
 	}
 
 	void Sax::initialize_image() {

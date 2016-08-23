@@ -2,8 +2,10 @@
 
 namespace sax {
 	Ticker::Ticker( std::function<void( double )> cb ) {
+		fpsSamples[ MAX_FPS_SAMPLES ] = {};
 		tickCallback = cb;
-		lastFrameTime = 0.1f;
+		fpsIndex = 0;
+		lastFrameTime = 0;
 		running = false;
 		fpsTimer = std::make_unique<Timer>( true );
 	}
@@ -13,12 +15,17 @@ namespace sax {
 	}
 
 	double Ticker::getFPS() {
-		double sum = 0;
-		auto it = fpsSamples.begin(), end = fpsSamples.end();
-		for ( ; it != end; it++ ) {
-			sum += *it;
+		if ( fpsIndex > MAX_FPS_SAMPLES ) {
+			
+			double total = 0;
+			for ( int i = 0; i < MAX_FPS_SAMPLES; i++ ) {
+				total += fpsSamples[ i ];
+			}
+
+			return 1000 * MAX_FPS_SAMPLES / total;
+		} else {
+			return 0;
 		}
-		return sum / fpsSamples.size();
 	}
 
 	double Ticker::getElapsedTime() {
@@ -27,13 +34,11 @@ namespace sax {
 
 	void Ticker::resume() {
 		running = true;
+		
 		while ( running ) {
 			double frameTime = fpsTimer->getTicks() - lastFrameTime;
 			lastFrameTime = fpsTimer->getTicks();
-			if ( fpsSamples.size() > 100 ) {
-				fpsSamples.pop_back();
-			}
-			fpsSamples.push_front( 1000 / frameTime );
+			fpsSamples[ fpsIndex++ % MAX_FPS_SAMPLES ] = frameTime;	
 			tickCallback( frameTime );
 		}
 	}

@@ -5,6 +5,7 @@
 #include <memory>
 //#include <iostream>
 
+#include "Renderer.h"
 #include "Sprite.h"
 #include "Types.h"
 #include "DisplayObject.h"
@@ -14,7 +15,7 @@ namespace sax {
 		public:
 			Stage();
 			~Stage();
-			void render( RendererDescriptor* rendererDescriptor );
+			void render( Renderer* renderer );
 			void addChild( DisplayObject* displayObject );
 			void removeChild( DisplayObject* displayObject );
 			void setViewport( SDL_Rect viewport );

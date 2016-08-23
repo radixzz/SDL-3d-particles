@@ -3,6 +3,7 @@
 #include "Stage.h"
 #include "Log.h"
 
+
 namespace sax
 {
 
@@ -18,8 +19,8 @@ namespace sax
 		this->viewport = viewport;
 	}
 
-	void Stage::render( RendererDescriptor* rendererDescriptor ) {
-		container->draw( rendererDescriptor );
+	void Stage::render( Renderer* renderer ) {
+		container->draw( renderer );
 	}
 
 	void Stage::addChild( DisplayObject* displayObject ) {

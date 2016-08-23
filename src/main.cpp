@@ -12,11 +12,10 @@
 #include "lib/Application.h"
 #include "lib/Stage.h"
 #include "lib/Sprite.h"
-#include "lib/DisplayObject.h"
 #include "lib/Utils.h"
 #include "lib/Timer.h"
 
-#include "lib\Resources.h"
+#include "lib/Resources.h"
 
 using namespace sax;
 
@@ -29,9 +28,9 @@ void update( double dt, double time ) {
 	auto it = vsprites.begin();
 	auto end = vsprites.end();
 	for ( ; it != end; ++it ) {
-		( *it )->position->x += dt * 0.1;
-		if ( ( *it )->position->x > 1000 ) {
-			( *it )->position->x = 0;
+		( *it )->position.x += float( dt * 0.1f );
+		if ( ( *it )->position.x > 1000 ) {
+			( *it )->position.x = 0;
 		}
 	}
 }
@@ -50,8 +49,8 @@ int main( int argc, char* args[] ){
 	
 	for ( int i = 0; i < 10; i++ ) {
 		std::unique_ptr<Sprite> s = std::make_unique<Sprite>();
-		s->position->x = getRand( 0, 1024 );
-		s->position->y = getRand( 0, 600 );
+		s->position.x = float( getRand( 0, 1024 ) );
+		s->position.y = float( getRand( 0, 600 ) );
 		//s->fromImage( "res/piece_vibrance.png" );
 		stage->addChild( s.get() );
 		vsprites.push_back( std::move( s ) );
