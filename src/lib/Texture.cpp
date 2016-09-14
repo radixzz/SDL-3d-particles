@@ -25,13 +25,13 @@ namespace sax {
 	}
 
 	int Texture::getNearestPowerOf2( int num ) {
-		num--;
-		num |= num >> 1;
-		num |= num >> 2;
-		num |= num >> 4;
-		num |= num >> 8;
-		num |= num >> 16;
-		return num++;
+		if ( !num ) return num;
+		int x = 1;
+		while ( x < num )
+		{
+			x <<= 1;
+		}
+		return x;
 	}
 
 	void Texture::clear() {

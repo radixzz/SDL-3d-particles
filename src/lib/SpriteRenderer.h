@@ -4,19 +4,21 @@
 #include <GL\glew.h>
 #include <SDL.h>
 
+#include <glm\glm.hpp>
+#include <glm\gtc\matrix_transform.hpp>
+
 #include "Sprite.h"
 #include "Shader.h"
 #include "Resources.h"
-#include <glm\glm.hpp>
-#include <glm\gtc\matrix_transform.hpp>
 
 namespace sax {
 	class SpriteRenderer {
 		public:
 			SpriteRenderer();
 			~SpriteRenderer();
-			//void render( Sprite* sprite );
+			void render( Sprite* sprite );
 		private:
+			void draw( Texture* texture );
 			void initDefaultShader();
 			void initVertexQuad();
 			GLuint quadVAO;

@@ -27,6 +27,13 @@ namespace sax {
 	}
 
 	void Renderer::render( Sprite* sprite ) {
-		//spriteRenderer->render( sprite );
+		spriteRenderer->render( sprite );
+	}
+	
+	void Renderer::render( DisplayObject* displayObject ) {
+		if ( typeid( *displayObject ).name() == typeid( Sprite ).name() ) {
+			this->render( dynamic_cast< Sprite* >( displayObject ) );
+		}
+		
 	}
 }

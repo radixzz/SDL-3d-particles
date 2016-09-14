@@ -45,16 +45,16 @@ namespace sax {
 			children.erase( std::find( children.begin(), children.end(), displayObject ) );
 		}
 	}
-
-	void DisplayObject::draw( Renderer* renderer ) {
-		/*
+	
+	void DisplayObject::onTextureDraw( std::function<void( Texture* tex )> drawCallback ) {
+		
 		if ( children.empty() ) return;
 		auto it = children.rbegin();
 		auto end = children.rend();
 		for ( ; it != end; ++it ) {
-			( *it )->draw( renderer );
+			( *it )->onTextureDraw( drawCallback );
 		}
-		*/
+		
 	}
-
+	
 }

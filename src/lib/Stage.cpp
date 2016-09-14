@@ -1,14 +1,9 @@
-#include <SDL.h>
-#include <memory>
 #include "Stage.h"
-#include "Log.h"
-
 
 namespace sax
 {
 
 	Stage::Stage() {
-		container = std::make_unique< DisplayObject >();
 		viewport = { 0 };
 	}
 
@@ -19,15 +14,13 @@ namespace sax
 		this->viewport = viewport;
 	}
 
-	void Stage::render( Renderer* renderer ) {
-		container->draw( renderer );
+	void Stage::onObjectRender( std::function< void( DisplayObject* ) > renderCallback ) {
+		if ( children.empty() ) return;
+		auto it = children.rbegin();
+		auto end = children.rend();
+		for ( ; it != end; ++it ) {
+			renderCallback( *it );
+		}
 	}
 
-	void Stage::addChild( DisplayObject* displayObject ) {
-		container->addChild( displayObject );
-	}
-
-	void Stage::removeChild( DisplayObject* displayObject ) {
-		container->removeChild( displayObject );
-	}
 }

@@ -2,17 +2,17 @@
 #define SAX_DISPLAY_OBJECT_H
 
 #include <vector>
+#include <functional>
 
 #include <memory>
 #include <iostream>
 #include <algorithm>
 #include <glm\glm.hpp>
 
-#include "Renderer.h"
+#include "Texture.h"
 #include "Log.h"
 
 namespace sax {
-	
 	class DisplayObject {
 		public:
 			DisplayObject();
@@ -20,10 +20,10 @@ namespace sax {
 			void addChild( DisplayObject* displayObject );
 			void addToFront( DisplayObject* displayObject );
 			void removeChild( DisplayObject* displayObject );
-			virtual void draw( Renderer* renderer );
+			void onTextureDraw( std::function<void( Texture* tex )> );
 			glm::vec2 position;
 			glm::vec2 anchor;
-			double rotation;
+			float rotation;
 		protected:
 			std::vector< DisplayObject* > children;
 			int count;

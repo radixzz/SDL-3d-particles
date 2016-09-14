@@ -13,6 +13,7 @@
 #include "Ticker.h"
 #include "Text.h"
 #include "Color.h"
+#include "DisplayObject.h"
 
 namespace sax {
 	
@@ -28,6 +29,7 @@ namespace sax {
 			void setClearColor( Color color );
 			bool showFps;
 		private:
+			void onStageRender( DisplayObject* o );
 			void processEvents();
 			void render();
 			void logInfo();

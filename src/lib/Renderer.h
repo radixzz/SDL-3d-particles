@@ -5,16 +5,20 @@
 #include <SDL.h>
 #include <memory>
 
-#include "Sprite.h"
 #include "SpriteRenderer.h"
+#include "DisplayObject.h"
+#include "Sprite.h"
+#include "Stage.h"
 #include "Log.h"
 #include "Utils.h"
+
 
 namespace sax {
 	class Renderer {
 		public:
 			Renderer( int width, int height );
 			void render( Sprite* sprite );
+			void render( DisplayObject* displayObject );
 		private:
 			void initGL();
 			void initGlew();

@@ -51,7 +51,7 @@ int main( int argc, char* args[] ){
 		std::unique_ptr<Sprite> s = std::make_unique<Sprite>();
 		s->position.x = float( getRand( 0, 1024 ) );
 		s->position.y = float( getRand( 0, 600 ) );
-		//s->fromImage( "res/piece_vibrance.png" );
+		s->fromImage( "res/piece_vibrance.png" );
 		stage->addChild( s.get() );
 		vsprites.push_back( std::move( s ) );
 	}

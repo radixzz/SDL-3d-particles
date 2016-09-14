@@ -3,25 +3,20 @@
 
 #include <SDL.h>
 #include <memory>
-//#include <iostream>
+#include <functional>
 
-#include "Renderer.h"
-#include "Sprite.h"
-#include "Types.h"
 #include "DisplayObject.h"
+#include "Log.h"
 
 namespace sax {
-	class Stage {
+	class Stage: public DisplayObject {
 		public:
 			Stage();
 			~Stage();
-			void render( Renderer* renderer );
-			void addChild( DisplayObject* displayObject );
-			void removeChild( DisplayObject* displayObject );
 			void setViewport( SDL_Rect viewport );
+			void onObjectRender( std::function< void( DisplayObject* ) > );
 		private:
 			SDL_Rect viewport;
-			std::shared_ptr<DisplayObject> container;
 	};
 }
 

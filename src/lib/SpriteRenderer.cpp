@@ -1,4 +1,5 @@
 #include "SpriteRenderer.h"
+#include <glm\gtx\transform.hpp>
 
 namespace sax {
 
@@ -11,15 +12,35 @@ namespace sax {
 		glDeleteVertexArrays( 1, &this->quadVAO );
 	}
 
-	/*
 	void SpriteRenderer::render( Sprite* sprite ) {
 		defaultShader->use();
 		glm::mat4 model;
 		model = glm::translate( model, glm::vec3( sprite->position, 0.0f ) );
-
+		model = glm::translate( model, glm::vec3( 0.5f * sprite->width, 0.5 * sprite->height, 0.0f ) );
+		model = glm::rotate( model, sprite->rotation, glm::vec3( 0.0f, 0.0f, 1.0f ) );
+		model = glm::translate( model, glm::vec3( -0.5f * sprite->width, -0.5 * sprite->height, 0.0f ) );
+		model = glm::scale( model, glm::vec3( sprite->width, sprite->height, 1.0f ) );
+		defaultShader->setMatrix4( "model", model );
+		defaultShader->setVector3f( "color", glm::vec3( 1.0f, 1.0f, 1.0f ) );
+		
+		glEnableVertexAttribArray( defaultShader->getAttr( "a_position" ) );
+		glEnableVertexAttribArray( defaultShader->getAttr( "a_texCoord" ) );
+		
+		sprite->onTextureDraw( std::bind( &SpriteRenderer::draw, this, std::placeholders::_1 ) );
+		glBindVertexArray( this->quadVAO );
+		glDrawArrays( GL_TRIANGLES, 0, 6 );
+		glBindVertexArray( 0 );
+		
+		glDisableVertexAttribArray( defaultShader->getAttr( "a_position" ) );
+		glDisableVertexAttribArray( defaultShader->getAttr( "a_texCoord" ) );
 	}
 
-	*/
+	void SpriteRenderer::draw( Texture* texture ) {
+		texture->bind();
+		defaultShader->setInteger( "s_texture", 0 );
+
+		//texture->unbind();
+	}
 
 	void SpriteRenderer::initDefaultShader() {
 		std::string vs = Resources::getFileContents( "res/glsl/sprite_vs.glsl" );

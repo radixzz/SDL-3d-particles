@@ -115,10 +115,14 @@ namespace sax {
 
 		for ( ; it != stages.end(); ++it ) {
 			renderFps( *it );
-			( *it )->render( window->renderer.get() );
+			( *it )->onObjectRender( std::bind( &Application::onStageRender, this, std::placeholders::_1 ) );
 		}
 
 		window->update();
+	}
+
+	void Application::onStageRender( DisplayObject* o ) {
+		window->renderer->render( o );
 	}
 
 	void Application::addStage( Stage* stage ) {

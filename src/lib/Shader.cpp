@@ -4,7 +4,7 @@
 
 namespace sax {
 
-	Shader::Shader(): program( 0 ) {
+	Shader::Shader(): program( 0 ), compilation_succeded( false ) {
 		load( "", "" );
 	}
 
@@ -20,6 +20,9 @@ namespace sax {
 	}
 
 	void Shader::compile() {
+
+		if ( compilation_succeded == true )
+			return;
 
 		compilation_succeded = true;
 		
@@ -88,8 +91,6 @@ namespace sax {
 		return *this;
 	}
 
-
-
 	std::string Shader::getDefaultVertex() {
 		return
 			"attribute vec4 position;"
@@ -104,6 +105,34 @@ namespace sax {
 			"void main() {"
 			"	gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);"
 			"}";
+		
+	}
+
+	GLint Shader::getAttr( const GLchar* name ) const {
+		if ( !attributes.count( name ) ) {
+			GLint location = glGetAttribLocation( this->program, name );
+			if ( location > -1 ) {
+				attributes[ name ] = location;
+				return location;
+			} else {
+				Log::warn( "Attribute name:" + to_string( name ) + " doesn't exist in current shader." );
+				return 0;
+			}
+		} else {
+			return attributes.at( name );
+		}
+	}
+
+	void Shader::setMatrix4( const GLchar* name, const glm::mat4& value ) const {
+		glUniformMatrix4fv( glGetUniformLocation( program, name ), 1, GL_FALSE, glm::value_ptr( value ) );
+	}
+
+	void Shader::setVector3f( const GLchar* name, const glm::vec3 &value ) const {
+		glUniform3f( glGetUniformLocation( program, name ), value.x, value.y, value.z );
+	}
+
+	void Shader::setInteger( const GLchar* name, const GLuint &value ) const {
+		glUniform1i( glGetUniformLocation( program, name ), value );
 	}
 
 }
