@@ -94,7 +94,7 @@ namespace sax {
 		processEvents();
 		renderClear();
 		updateCallback( dt, ticker->getElapsedTime() );
-		updateFpsText();
+		//updateFpsText();
 		render();
 	}
 

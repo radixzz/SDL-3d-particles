@@ -48,9 +48,9 @@ namespace sax {
 	void Sax::initialize_sdl() {
 		if ( SDL_Init( SDL_FLAGS ) < 0 ) {
 			throw std::runtime_error( "SDL_Init: " + to_string( SDL_GetError() ) );
-		} else {
-			SDL_GL_SetSwapInterval( 1 );
 		}
+		
+		SDL_GL_SetSwapInterval( 1 );
 	}
 
 	void Sax::initialize_image() {

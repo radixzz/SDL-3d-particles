@@ -5,7 +5,7 @@
 
 // Memory Leak Analyzer
 #if defined( _WIN32 )
-#include "vld.h"
+//#include "vld.h"
 #endif
 #include "lib/Sax.h"
 #include "lib/Log.h"

@@ -1,0 +1,38 @@
+{
+    "version": "0.1.0",
+    "command": "make",
+    "isShellCommand": true,
+    "showOutput": "always",
+    "tasks": [
+        {
+            "isBuildCommand": true,
+            "taskName": "run"
+        },
+        {
+            "taskName": "rebuild"
+        },
+        {
+            "taskName": "clean"
+        },
+        {
+            "taskName": "all",
+            // Make this the default build command.
+            // Show the output window only if unrecognized errors occur.
+            // No args
+            "args": [],
+            // Use the standard less compilation problem matcher.
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": ["relative", "${workspaceRoot}"],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            }
+        }
+    ]
+}

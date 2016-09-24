@@ -3,7 +3,7 @@
 EXE = 3dParticles
 
 CFLAGS   = -g `sdl2-config --cflags`
-CXXFLAGS = -Wall -Wextra -g `sdl2-config --cflags` -std=c++0x
+CXXFLAGS = -Wall -Wextra -g `sdl2-config --cflags` -std=c++1y
 LDFLAGS  = `sdl2-config --libs` \
            -lSDL2_image -lSDL2_ttf -lm
 
@@ -76,3 +76,4 @@ run: all
 clean:
 	# Cleaning...
 	-$(MUTE)rm -f $(EXE) $(OBJECTS)
+rebuild: clean run
