@@ -1,5 +1,4 @@
 #include "SpriteRenderer.h"
-#include <glm\gtx\transform.hpp>
 
 namespace sax {
 

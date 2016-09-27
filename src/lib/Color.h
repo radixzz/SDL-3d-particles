@@ -1,7 +1,7 @@
 #ifndef SAX_COLOR_H
 #define SAX_COLOR_H
 
-#include <gl\glew.h>
+#include <GL/glew.h>
 #include <SDL.h>
 
 namespace sax {

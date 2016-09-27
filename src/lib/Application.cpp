@@ -1,4 +1,3 @@
-#include <gl\glew.h>
 #include <SDL.h>
 #include <algorithm>
 #include <functional>
@@ -17,12 +16,14 @@ namespace sax {
 		fpsTimer = std::make_unique<Timer>( true );
 		ticker = std::make_unique<Ticker>( std::bind( &Application::onTickerUpdate, this, std::placeholders::_1 ) );
 		window = std::make_unique<Window>( "SaxApp", width, height );
+		createFpsText();
 		setClearColor( { 0.5, 0, 0, 1.0 } );
 		resize( width, height );
 		logInfo();
 	}
 
 	Application::~Application() {
+		ticker->stop();
 		stages.clear();
 		fpsText.reset();
 		window.reset();
@@ -46,7 +47,7 @@ namespace sax {
 		*/
 	}
 
-	void Application::updateFpsText() {
+	void Application::createFpsText() {
 		if (this->fpsText == NULL) {
 			this->fpsText = std::make_unique<Text>( "Roboto", 16 );
 			this->fpsText->position.x = 10;
@@ -94,7 +95,6 @@ namespace sax {
 		processEvents();
 		renderClear();
 		updateCallback( dt, ticker->getElapsedTime() );
-		//updateFpsText();
 		render();
 	}
 
@@ -114,8 +114,8 @@ namespace sax {
 		auto it = stages.begin();
 
 		for ( ; it != stages.end(); ++it ) {
-			renderFps( *it );
 			( *it )->onObjectRender( std::bind( &Application::onStageRender, this, std::placeholders::_1 ) );
+			renderFps( *it );
 		}
 
 		window->update();

@@ -2,7 +2,7 @@
 #define SAX_TYPES_H
 
 #include <SDL.h>
-#include <gl\glew.h>
+#include <GL/glew.h>
 
 namespace sax
 {

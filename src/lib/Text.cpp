@@ -15,11 +15,15 @@ namespace sax {
 		this->color = { 255, 255, 255, 255 };
 		smooth = true;
 		dirty = true;
+		font = nullptr;
 	}
 
 	Text::~Text() {
-		TTF_CloseFont(font);
-		font = nullptr;
+		if ( font != nullptr ) {
+			TTF_CloseFont( font );
+			font = nullptr;	
+		}
+		
 	}
 
 	void Text::setFontSize( int size ) {

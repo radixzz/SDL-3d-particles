@@ -95,8 +95,8 @@ namespace sax {
 				
 			}
 			
-			SDL_FreeSurface( surface );
-			SDL_FreeSurface( pow2Surface );
+			//SDL_FreeSurface( surface );
+			//SDL_FreeSurface( pow2Surface );
 
 			if ( error != nullptr ) {
 				Log::error( "Cannot load texture: " + path + " Error: " + to_string( error ) );

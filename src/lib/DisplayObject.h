@@ -7,7 +7,7 @@
 #include <memory>
 #include <iostream>
 #include <algorithm>
-#include <glm\glm.hpp>
+#include <glm/glm.hpp>
 
 #include "Texture.h"
 #include "Log.h"

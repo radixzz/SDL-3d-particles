@@ -93,17 +93,19 @@ namespace sax {
 
 	std::string Shader::getDefaultVertex() {
 		return
-			"attribute vec4 position;"
-			"void main() {"
-			"	gl_Position = vec4( position.x, position.y, position.z, 1.0 );"
+			"#version 130\n"
+			"attribute vec4 a_position;\n"
+			"void main() {\n"
+			"	gl_Position = vec4( a_position.x, a_position.y, a_position.z, 1.0 );\n"
 			"}";
 	}
 
 	std::string Shader::getDefaultFragment() {
 		return
-			"precision mediump float;"
-			"void main() {"
-			"	gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);"
+			"#version 130\n"
+			"precision mediump float;\n"
+			"void main() {\n"
+			"	gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);\n"
 			"}";
 		
 	}

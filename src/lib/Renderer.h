@@ -1,7 +1,7 @@
 #ifndef SAX_RENDERER_H
 #define SAX_RENDERER_H
 
-#include <GL\glew.h>
+#include <GL/glew.h>
 #include <SDL.h>
 #include <memory>
 

@@ -1,6 +1,7 @@
 #ifndef SAX_APPLICATION_H
 #define SAX_APPLICATION_H
-#include <gl\glew.h>
+
+#include <GL/glew.h>
 #include <SDL.h>
 #include <vector>
 #include <functional>
@@ -36,7 +37,7 @@ namespace sax {
 			void renderFps( Stage* stage );
 			void renderClear();
 			void onTickerUpdate( double dt );
-			void updateFpsText();
+			void createFpsText();
 			//void handleWindowEvent( SDL_WindowEvent* e );
 			Color clearColor;
 			std::unique_ptr<Ticker> ticker;

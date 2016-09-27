@@ -60,5 +60,6 @@ int main( int argc, char* args[] ){
 	vsprites.clear();
 	app.reset();
 	stage.reset();
+	std::getchar();
     return EXIT_SUCCESS;
 }

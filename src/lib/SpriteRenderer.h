@@ -1,11 +1,12 @@
 #ifndef SAX_SPRITE_RENDERER_H
 #define SAX_SPRITE_RENDERER_H
 
-#include <GL\glew.h>
+#include <GL/glew.h>
 #include <SDL.h>
 
-#include <glm\glm.hpp>
-#include <glm\gtc\matrix_transform.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/transform.hpp>
 
 #include "Sprite.h"
 #include "Shader.h"
