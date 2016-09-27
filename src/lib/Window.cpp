@@ -35,4 +35,5 @@ namespace sax {
 	void Window::update() {
 		SDL_GL_SwapWindow( sdlWindow );
 	}
+	
 }

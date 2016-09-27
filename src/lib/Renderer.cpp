@@ -5,6 +5,7 @@ namespace sax {
 		initGlew();
 		initGL();
 		spriteRenderer = std::make_unique< SpriteRenderer >();
+		resize( width, height );
 	}
 
 	void Renderer::initGlew() {
@@ -14,6 +15,12 @@ namespace sax {
 		if ( err != GLEW_OK ) {
 			Log::info( "Glew init error: " + to_string( glewGetErrorString( err ) ) );
 		}
+	}
+
+	void Renderer::resize( int width, int height ) {
+		this->width = width;
+		this->height = height;
+		spriteRenderer->resize( width, height );
 	}
 
 	void Renderer::initGL() {

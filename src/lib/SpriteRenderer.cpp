@@ -5,10 +5,17 @@ namespace sax {
 	SpriteRenderer::SpriteRenderer() {
 		initVertexQuad();
 		initDefaultShader();
+		resize( 0, 0 );
 	}
 
 	SpriteRenderer::~SpriteRenderer() {
 		glDeleteVertexArrays( 1, &this->quadVAO );
+	}
+
+	void SpriteRenderer::resize( int width, int height ) {
+		this->width = width;
+		this->height = height;
+		MVP = glm::ortho(0.0, (double)width, (double)height, 0.0, -1.0, 1.0);
 	}
 
 	void SpriteRenderer::render( Sprite* sprite ) {
@@ -21,6 +28,7 @@ namespace sax {
 		model = glm::scale( model, glm::vec3( sprite->width, sprite->height, 1.0f ) );
 		defaultShader->setMatrix4( "model", model );
 		defaultShader->setVector3f( "color", glm::vec3( 1.0f, 1.0f, 1.0f ) );
+		defaultShader->setVector3f
 		
 		glEnableVertexAttribArray( defaultShader->getAttr( "a_position" ) );
 		glEnableVertexAttribArray( defaultShader->getAttr( "a_texCoord" ) );

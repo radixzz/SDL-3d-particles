@@ -19,10 +19,13 @@ namespace sax {
 			Renderer( int width, int height );
 			void render( Sprite* sprite );
 			void render( DisplayObject* displayObject );
+			void resize( int width, int height );
 		private:
 			void initGL();
 			void initGlew();
 			std::unique_ptr<SpriteRenderer> spriteRenderer;
+			int width;
+			int height;
 	};
 }
 
