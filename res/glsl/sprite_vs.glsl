@@ -1,16 +1,14 @@
+#version 120
 
-#version 130
-
-attribute vec3 a_position;
-attribute vec2 a_texCoord;
+attribute vec4 a_vertex;
 attribute vec3 a_color;
 
-varying vec2 v_color;
+uniform mat4 u_model;
+uniform mat4 u_projection;
+
 varying vec2 v_texCoord;
 
 void main() {
-	
-	gl_Position = vec4( a_position, 1.0f );
-	v_texCoord = a_texCoord;
-	
+	v_texCoord = a_vertex.zw;
+	gl_Position = u_projection * u_model * vec4( a_vertex.xy, 0.0, 1.0 );
 }

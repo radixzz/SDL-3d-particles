@@ -23,6 +23,7 @@ namespace sax {
 			void onTextureDraw( std::function<void( Texture* tex )> );
 			glm::vec2 position;
 			glm::vec2 anchor;
+			glm::vec3 color;
 			float rotation;
 		protected:
 			std::vector< DisplayObject* > children;

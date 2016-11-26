@@ -31,6 +31,8 @@ namespace sax {
 		SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 24 );
 		SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
 		glEnable( GL_DEPTH_TEST );
+		glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+		glEnable( GL_BLEND );
 	}
 
 	void Renderer::render( Sprite* sprite ) {

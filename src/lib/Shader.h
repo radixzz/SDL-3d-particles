@@ -18,9 +18,11 @@ namespace sax {
 			Shader &use();
 			Shader &load( std::string vertexSrc, std::string fragmentSrc );
 			GLint getAttr( const GLchar* name ) const;
+			GLuint getProgram() const;
 			void setMatrix4( const GLchar* name, const glm::mat4 &value ) const;
 			void setVector3f( const GLchar* name, const glm::vec3 &value ) const;
 			void setInteger( const GLchar* name, const GLuint &value ) const;
+			
 		private:
 			void compile();
 			void handleShaderErrors( GLuint shader, std::string labels );

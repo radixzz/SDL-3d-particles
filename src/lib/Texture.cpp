@@ -53,7 +53,7 @@ namespace sax {
 			newSurface = SDL_CreateRGBSurface( 0, width, height, bpp, Rmask, Gmask, Bmask, Amask );
 			SDL_Rect area = { 0, 0, surface->w, surface->h }; // x, y, w, h
 			SDL_SetSurfaceAlphaMod( surface, 0xFF );
-			SDL_SetSurfaceBlendMode( surface, SDL_BLENDMODE_NONE );
+			SDL_SetSurfaceBlendMode( surface, SDL_BLENDMODE_BLEND );
 			SDL_BlitSurface( surface, &area, newSurface, &area );
 
 			return newSurface;
@@ -88,7 +88,7 @@ namespace sax {
 				// TODO: Add Wrapping modes
 				//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, this->Wrap_S);
 				//glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, this->Wrap_T );
-				glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+				glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
 				glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 				
 				Log::info( "Texture loaded: " + path );

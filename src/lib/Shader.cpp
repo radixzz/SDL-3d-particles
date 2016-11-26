@@ -57,6 +57,10 @@ namespace sax {
 		glDeleteShader( fs );
 	}
 
+	GLuint Shader::getProgram() const {
+		return this->program;
+	}
+
 	void Shader::handleShaderErrors( GLuint shader, std::string label ) {
 		GLint succeded;
 		glGetShaderiv( shader, GL_COMPILE_STATUS, &succeded );
@@ -93,7 +97,7 @@ namespace sax {
 
 	std::string Shader::getDefaultVertex() {
 		return
-			"#version 130\n"
+			"#version 120\n"
 			"attribute vec4 a_position;\n"
 			"void main() {\n"
 			"	gl_Position = vec4( a_position.x, a_position.y, a_position.z, 1.0 );\n"
@@ -102,7 +106,7 @@ namespace sax {
 
 	std::string Shader::getDefaultFragment() {
 		return
-			"#version 130\n"
+			"#version 120\n"
 			"precision mediump float;\n"
 			"void main() {\n"
 			"	gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);\n"

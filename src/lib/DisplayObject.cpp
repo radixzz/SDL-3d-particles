@@ -4,6 +4,7 @@ namespace sax {
 	DisplayObject::DisplayObject(): rotation(0.f) {
 		anchor = glm::vec2();
 		position = glm::vec2();
+		color = glm::vec3(1.0);
 		children = {};
 		count = 0;
 	}

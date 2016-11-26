@@ -29,6 +29,7 @@ void update( double dt, double time ) {
 	auto end = vsprites.end();
 	for ( ; it != end; ++it ) {
 		( *it )->position.x += float( dt * 0.1f );
+		( *it )->rotation += float( dt * 0.001f );;
 		if ( ( *it )->position.x > 1000 ) {
 			( *it )->position.x = 0;
 		}
